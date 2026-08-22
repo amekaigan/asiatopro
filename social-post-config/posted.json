@@ -1,0 +1,29 @@
+{
+  "posted": [
+    "/rare-earth/17-elements-guide/",
+    "/rare-earth/china-dependency/",
+    "/rare-earth/company-daido-steels/",
+    "/rare-earth/company-daiichi-kigenso/",
+    "/rare-earth/company-envipro/",
+    "/rare-earth/company-matsuda-sangyo/",
+    "/rare-earth/company-mitsui-kinzoku/",
+    "/rare-earth/company-osaka-titanium/",
+    "/rare-earth/company-shinetsu/",
+    "/rare-earth/company-smm/",
+    "/rare-earth/company-sojitz/",
+    "/rare-earth/company-tdk/",
+    "/rare-earth/company-toho-titanium/",
+    "/rare-earth/company-toyo-tanso/",
+    "/rare-earth/deep-tech-refining/",
+    "/rare-earth/government-strategy/",
+    "/rare-earth/investment-stocks/",
+    "/rare-earth/market-forecast-2036/",
+    "/rare-earth/minamitorishima-mud/",
+    "/rare-earth/neodymium-sagawa-magnet/",
+    "/rare-earth/periodic-table-reasons/",
+    "/rare-earth/products-guide/",
+    "/rare-earth/rare-earth-basics-recycling/",
+    "/rare-earth/refining-bottleneck/",
+    "/rare-earth/supply-chain-map/"
+  ]
+}
