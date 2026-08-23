@@ -1,4 +1,4 @@
-name: Auto-post new articles to SNS
+name: Update site listings and post new articles to SNS
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  post:
+  update-and-post:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,6 +18,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Regenerate site listings (rare-earth index, top page, sitemap)
+        run: node .github/scripts/generate-site.js
 
       - name: Run SNS posting script
         env:
@@ -28,10 +31,10 @@ jobs:
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
         run: node .github/scripts/social-post.js
 
-      - name: Commit updated posted list
+      - name: Commit generated changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add social-post-config/posted.json
-          git diff --staged --quiet || git commit -m "chore: update posted articles list [skip ci]"
+          git add rare-earth/index.html index.html sitemap.xml social-post-config/posted.json
+          git diff --staged --quiet || git commit -m "chore: auto-update site listings and posted articles [skip ci]"
           git push
