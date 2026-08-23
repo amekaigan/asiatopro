@@ -96,6 +96,9 @@ function updateRareEarthIndex(articles) {
   for (const catId of CATEGORY_ORDER) {
     const catArticles = articles.filter((a) => CATEGORY_TO_ID[a.category] === catId);
     content = replaceBetweenMarkers(content, catId, categoryBlockHtml(catArticles));
+
+    const countRegex = new RegExp(`(<span id="count-${catId}">)[^<]*(</span>)`);
+    content = content.replace(countRegex, `$1${catArticles.length}$2`);
   }
   fs.writeFileSync(RARE_EARTH_INDEX, content);
 }
