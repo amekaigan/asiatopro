@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>レアアース関連銘柄ハンドブック【無料】｜Asiatopro</title>
+<meta name="description" content="レアアース関連の主要16銘柄を、決算・IRなど一次情報ベースで一冊に。サプライチェーン全体マップ・企業プロファイル・2027年2月の南鳥島 本格採鉱試験ロードマップ付き。無料でダウンロードいただけます。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://asiatopro.com/lp/handbook/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="レアアース関連銘柄ハンドブック【無料配布】">
+<meta property="og:description" content="日本のレアアース産業の全体像を、一次情報ベースで整理した無料ハンドブック。2027年2月の南鳥島 本格採鉱試験を前に。">
+<meta property="og:url" content="https://asiatopro.com/lp/handbook/">
+<meta property="og:site_name" content="Asiatopro">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0f172a;
+    --navy-2:#16233c;
+    --gold:#d97706;
+    --gold-lt:#fbbf24;
+    --ink:#1e293b;
+    --muted:#64748b;
+    --line:#e2e8f0;
+    --paper:#f8fafc;
+    --on-dark:#e2e8f0;
+    --on-dark-muted:#94a3b8;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Noto Sans CJK JP","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+    color:var(--ink);
+    background:#fff;
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+    font-size:16px;
+  }
+  .serif{font-family:"Noto Serif JP","Hiragino Mincho ProN",serif;}
+  .wrap{max-width:660px;margin:0 auto;padding:0 22px;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(120% 90% at 80% 0%, #1c2c48 0%, var(--navy) 55%, #0b1120 100%);
+    color:var(--on-dark);
+    padding:26px 0 52px;
+    position:relative;
+    overflow:hidden;
+  }
+  .brand{
+    font-size:1.05rem;font-weight:700;letter-spacing:.3px;color:#fff;text-decoration:none;
+    display:inline-block;
+  }
+  .brand .dot{color:var(--gold);}
+  .brand .tag{font-size:.62rem;color:var(--on-dark-muted);font-weight:400;margin-left:6px;letter-spacing:1px;}
+
+  .eyebrow{
+    display:inline-block;margin-top:34px;
+    font-size:.72rem;letter-spacing:3px;font-weight:700;color:var(--gold-lt);
+    border:1px solid rgba(217,119,6,.5);border-radius:999px;padding:5px 14px;
+  }
+  h1.headline{
+    margin:20px 0 0;font-weight:900;line-height:1.42;
+    font-size:2.05rem;color:#fff;letter-spacing:.5px;
+  }
+  h1.headline em{color:var(--gold-lt);font-style:normal;}
+  .subhead{
+    margin:20px 0 0;font-size:1rem;color:#cbd5e1;line-height:1.95;
+    border-left:3px solid var(--gold);padding-left:16px;
+  }
+
+  /* signature: temporal anchor */
+  .anchor{
+    display:flex;align-items:center;gap:16px;margin:34px 0 6px;
+    padding:16px 18px;background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);border-radius:10px;
+  }
+  .anchor .date{
+    font-family:"Noto Serif JP",serif;font-weight:900;color:#fff;line-height:1;
+    font-size:1.9rem;white-space:nowrap;
+  }
+  .anchor .date span{color:var(--gold);font-size:1.1rem;display:block;letter-spacing:2px;margin-bottom:4px;}
+  .anchor .txt{font-size:.82rem;color:var(--on-dark-muted);line-height:1.7;}
+  .anchor .txt b{color:var(--gold-lt);font-weight:700;}
+
+  .cta{
+    display:block;width:100%;margin-top:30px;
+    background:var(--gold);color:#1a1206;text-decoration:none;text-align:center;
+    font-weight:700;font-size:1.05rem;padding:17px 20px;border-radius:10px;
+    border:none;cursor:pointer;letter-spacing:.5px;
+    box-shadow:0 6px 20px rgba(217,119,6,.28);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .cta:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(217,119,6,.4);}
+  .cta .sub{display:block;font-size:.72rem;font-weight:500;opacity:.8;margin-top:3px;letter-spacing:0;}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:52px 0;}
+  .sec-eyebrow{font-size:.7rem;letter-spacing:2.5px;font-weight:700;color:var(--gold);}
+  h2{font-family:"Noto Serif JP",serif;font-weight:900;font-size:1.5rem;color:var(--navy);margin:8px 0 26px;line-height:1.5;}
+
+  /* contents list */
+  .contents{list-style:none;margin:0;padding:0;}
+  .contents li{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:16px 0;border-bottom:1px solid var(--line);
+  }
+  .contents li:last-child{border-bottom:none;}
+  .mark{
+    flex-shrink:0;width:26px;height:26px;border-radius:6px;background:var(--navy);
+    color:var(--gold-lt);display:flex;align-items:center;justify-content:center;
+    font-size:.8rem;margin-top:2px;
+  }
+  .contents .t{font-weight:700;color:var(--navy);}
+  .contents .d{color:var(--muted);font-size:.9rem;display:block;margin-top:2px;line-height:1.7;}
+
+  /* timeline (dark) */
+  .timeline-sec{background:var(--navy);color:var(--on-dark);}
+  .timeline-sec h2{color:#fff;}
+  .timeline-sec .sec-eyebrow{color:var(--gold-lt);}
+  .tl{list-style:none;margin:0;padding:0;position:relative;}
+  .tl:before{content:"";position:absolute;left:7px;top:6px;bottom:14px;width:2px;background:rgba(255,255,255,.15);}
+  .tl li{position:relative;padding:0 0 26px 34px;}
+  .tl li:last-child{padding-bottom:0;}
+  .tl .dot{position:absolute;left:0;top:4px;width:16px;height:16px;border-radius:50%;background:var(--navy);border:2px solid var(--on-dark-muted);}
+  .tl li.now .dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 5px rgba(217,119,6,.22);}
+  .tl .when{font-family:"Noto Serif JP",serif;font-weight:700;color:#fff;font-size:.95rem;}
+  .tl li.now .when{color:var(--gold-lt);}
+  .tl .what{color:var(--on-dark-muted);font-size:.9rem;margin-top:3px;line-height:1.7;}
+  .tl li.now .what{color:#e2e8f0;}
+  .tl .badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:1px;color:#1a1206;background:var(--gold);padding:2px 8px;border-radius:5px;margin-left:8px;vertical-align:middle;}
+  .tl-note{font-size:.75rem;color:var(--on-dark-muted);margin-top:22px;}
+
+  /* authority */
+  .authority{background:var(--paper);}
+  .authority p{font-size:.98rem;color:var(--ink);line-height:1.95;margin:0 0 14px;}
+  .authority .pillars{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;}
+  .pillar{flex:1 1 160px;background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:16px 16px;}
+  .pillar .h{font-weight:700;color:var(--navy);font-size:.95rem;margin-bottom:5px;}
+  .pillar .b{font-size:.82rem;color:var(--muted);line-height:1.7;}
+
+  /* form */
+  .form-sec{background:linear-gradient(180deg,#16233c 0%, var(--navy) 100%);color:var(--on-dark);}
+  .form-sec h2{color:#fff;}
+  .form-sec .sec-eyebrow{color:var(--gold-lt);}
+  .form-card{background:#fff;border-radius:14px;padding:28px 24px;margin-top:22px;box-shadow:0 20px 50px rgba(0,0,0,.3);}
+  .form-card .lead-in{color:var(--ink);font-size:.95rem;margin:0 0 20px;line-height:1.8;}
+
+  /* --- Brevo placeholder (公開前に差し替え) --- */
+  .brevo-slot{border:2px dashed var(--gold);border-radius:10px;padding:20px;background:#fffbeb;}
+  .brevo-note{font-size:.78rem;color:#92400e;font-weight:700;margin:0 0 14px;line-height:1.7;}
+  .mock-input{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:8px;font-size:1rem;color:#94a3b8;background:#f8fafc;margin-bottom:12px;}
+  .mock-btn{width:100%;padding:15px;background:var(--gold);color:#1a1206;font-weight:700;font-size:1.02rem;border:none;border-radius:8px;opacity:.75;}
+  /* --- /Brevo placeholder --- */
+
+  .reassure{margin-top:18px;list-style:none;padding:0;}
+  .reassure li{color:var(--on-dark-muted);font-size:.82rem;padding:4px 0 4px 22px;position:relative;}
+  .reassure li:before{content:"✓";position:absolute;left:0;color:var(--gold-lt);font-weight:700;}
+
+  /* footer */
+  footer{background:#0b1120;color:var(--on-dark-muted);padding:34px 0 40px;font-size:.78rem;line-height:1.85;}
+  .disclaimer{border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:16px 18px;margin-bottom:20px;}
+  .disclaimer .h{color:var(--gold-lt);font-weight:700;font-size:.8rem;margin-bottom:6px;}
+  footer a{color:var(--on-dark-muted);}
+  .copyright{color:#64748b;font-size:.72rem;}
+
+  @media (max-width:480px){
+    h1.headline{font-size:1.7rem;}
+    .anchor{flex-direction:column;align-items:flex-start;gap:10px;}
+    .anchor .date{font-size:1.6rem;}
+    h2{font-size:1.3rem;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .cta{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <a class="brand" href="https://asiatopro.com/">Asiatopro<span class="dot">.</span><span class="tag">レアアース専門メディア</span></a>
+
+    <span class="eyebrow">無料ハンドブック</span>
+    <h1 class="headline serif">レアアース関連<em>16銘柄</em>を、<br>一次情報で一冊に。</h1>
+    <p class="subhead">
+      採掘・精製・磁石・リサイクル・調達——日本のレアアース産業の全体像を、決算・IR・官公庁発表で裏取りして整理しました。<br>
+      「どの企業が、何を担うのか」を掴んでおくためのハンドブックです。
+    </p>
+
+    <div class="anchor">
+      <div class="date"><span>2027.02</span>Xデー</div>
+      <div class="txt">南鳥島で<b>1日350トン規模の本格採鉱試験</b>が予定されています。この節目の前に、業界地図を頭に入れておく——そのための一冊です。</div>
+    </div>
+
+    <a class="cta" href="#form">無料でハンドブックを受け取る<span class="sub">メールアドレスの入力だけ・約30秒</span></a>
+  </div>
+</header>
+
+<!-- ============ CONTENTS ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-eyebrow">WHAT'S INSIDE</div>
+    <h2>この一冊でわかること</h2>
+    <ul class="contents">
+      <li><span class="mark">◆</span><span><span class="t">サプライチェーン全体マップ</span><span class="d">採掘→精製→磁石→リサイクル→調達。5つのフェーズで産業構造を俯瞰する。</span></span></li>
+      <li><span class="mark">◆</span><span><span class="t">主要16銘柄の早見表</span><span class="d">証券コード・担当フェーズ・ポジショニングを一覧で。全体像を一目で掴む。</span></span></li>
+      <li><span class="mark">◆</span><span><span class="t">1社ずつの企業プロファイル</span><span class="d">強み・直近業績・成長ドライバー・リスクを、各社コンパクトに解説。</span></span></li>
+      <li><span class="mark">◆</span><span><span class="t">2027年2月へ向けた採掘ロードマップ</span><span class="d">南鳥島プロジェクトの進捗と、本格採鉱試験までの流れ。</span></span></li>
+      <li><span class="mark">◆</span><span><span class="t">レアアースの基礎</span><span class="d">全17元素／軽・重希土類の違い／なぜ「精製」が本当のボトルネックなのか。</span></span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section class="timeline-sec">
+  <div class="wrap">
+    <div class="sec-eyebrow">ROADMAP</div>
+    <h2>なぜ「今」なのか</h2>
+    <ul class="tl">
+      <li><span class="dot"></span><div class="when">2026年2月</div><div class="what">探査船「ちきゅう」が、水深約6,000mからの泥の試験採取に成功。</div></li>
+      <li><span class="dot"></span><div class="when">2026年7月</div><div class="what">採取した泥（約50トン）の成分分析結果を公表。</div></li>
+      <li class="now"><span class="dot"></span><div class="when">2027年2月<span class="badge">Xデー</span></div><div class="what">1日あたり350トン規模の本格採鉱試験を実施予定。産業化・商業化検討への大きな節目。</div></li>
+      <li><span class="dot"></span><div class="when">2028年度以降</div><div class="what">試験結果をもとに、産業化・商業化を検討。</div></li>
+    </ul>
+    <p class="tl-note">※日程は計画段階のものを含みます。最新の公式発表をご確認ください。</p>
+  </div>
+</section>
+
+<!-- ============ AUTHORITY ============ -->
+<section class="authority">
+  <div class="wrap">
+    <div class="sec-eyebrow">WHY ASIATOPRO</div>
+    <h2>煽らない。事実で整理する。</h2>
+    <p>Asiatopro は、日本の先人が技術を生み出した「足跡（あしあと）」をたどり、その知をアジアへ伝えるレアアース専門メディアです。数字は決算短信・IR資料・官公庁発表など一次情報で裏取りし、期待や煽りではなく事実ベースで整理することを方針にしています。</p>
+    <div class="pillars">
+      <div class="pillar"><div class="h">一次情報ベース</div><div class="b">財務数値は各社の決算・IRで確認。出典を明記します。</div></div>
+      <div class="pillar"><div class="h">中立・非煽り</div><div class="b">特定銘柄を推奨せず、業界構造と企業の立ち位置を解説します。</div></div>
+      <div class="pillar"><div class="h">継続更新</div><div class="b">プロジェクトの進捗・規制動向を随時アップデートします。</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORM ============ -->
+<section class="form-sec" id="form">
+  <div class="wrap">
+    <div class="sec-eyebrow">DOWNLOAD</div>
+    <h2>無料でハンドブックを受け取る</h2>
+    <div class="form-card">
+      <p class="lead-in">下のフォームにメールアドレスを入力すると、ハンドブック（PDF）のダウンロードリンクをお送りします。あわせて、レアアースの最新動向をメールでお届けします。</p>
+
+      <!-- ================================================================= -->
+      <!--  ▼▼▼ 公開前に、この <div class="brevo-slot"> ～ </div> を           -->
+      <!--       Brevo の登録フォーム埋め込みコードに丸ごと差し替えてください  -->
+      <!--       （Brevo管理画面 → Contacts → Forms で生成したHTMLを貼る）    -->
+      <!-- ================================================================= -->
+      <div class="brevo-slot">
+        <p class="brevo-note">⚠ ここは仮のプレビューです。公開前に Brevo の登録フォームに差し替えてください（このブロックはメールを収集しません）。</p>
+        <div class="mock-input">メールアドレスを入力</div>
+        <button class="mock-btn" type="button" disabled>ハンドブックを受け取る（見本）</button>
+      </div>
+      <!-- ================================================================= -->
+      <!--  ▲▲▲ ここまでを差し替え                                          -->
+      <!-- ================================================================= -->
+
+      <ul class="reassure">
+        <li>登録・ダウンロードは無料です</li>
+        <li>配信はいつでも1クリックで解除できます</li>
+        <li>メールアドレスは、資料送付とお知らせ以外に使いません</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="disclaimer">
+      <div class="h">投資に関する注意事項</div>
+      本資料および本サイトは情報提供を目的としたものであり、特定の金融商品・銘柄の売買を推奨・勧誘するものではありません。投資に関する最終判断は、最新のIR情報をご確認のうえ、ご自身の責任において行ってください。
+    </div>
+    <a href="https://asiatopro.com/">asiatopro.com へ戻る</a>
+    <div class="copyright">© 2026 Asiatopro</div>
+  </div>
+</footer>
+
+</body>
+</html>
