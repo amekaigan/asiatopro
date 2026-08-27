@@ -128,12 +128,9 @@ async function build() {
       skipped++;
       continue; // 既存ファイルは上書きしない（手作り画像を優先）
     }
-    let img = sharp(svgCard(info.title, info.category), { density: 96 });
-    if (fs.existsSync(LOGO)) {
-      const logo = await sharp(LOGO).resize({ height: 54 }).toBuffer();
-      img = sharp(await img.png().toBuffer()).composite([{ input: logo, top: H - 128, left: 1200 - 88 - 200, gravity: 'northwest' }]);
-    }
-    await img.png({ compressionLevel: 9 }).toFile(out);
+    await sharp(svgCard(info.title, info.category), { density: 96 })
+      .png({ compressionLevel: 9 })
+      .toFile(out);
     made++;
     console.log(`サムネイル生成: ${slug}.png`);
   }
