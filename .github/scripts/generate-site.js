@@ -152,34 +152,50 @@ function hasMarker(content, markerName) {
 /* ---------------- 共通パーツ ---------------- */
 
 function headerHtml() {
-  return `<header style="background:#0f172a; padding:14px 20px; position:sticky; top:0; z-index:100; box-shadow:0 2px 16px rgba(0,0,0,.3);">
-  <div style="max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;">
-    <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px;"><img src="/assets/logo/asiatopro-white.png" alt="Asiatopro" style="height:34px; width:auto; display:block;"><span style="font-size:0.65em; color:#94a3b8; font-weight:normal;">レアアース専門メディア</span></a>
-    <input type="checkbox" id="navToggle" style="display:none;">
-    <label for="navToggle" style="display:none; cursor:pointer; padding:6px;">
+  return `<header style="background:#0f172a; position:sticky; top:0; z-index:100; box-shadow:0 2px 16px rgba(0,0,0,.3);">
+  <div style="max-width:860px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+    <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px; min-width:0;"><img src="/assets/logo/asiatopro-white.png" alt="Asiatopro" style="height:32px; width:auto; display:block;"><span style="font-size:0.62em; color:#94a3b8; white-space:nowrap;">レアアース専門メディア</span></a>
+    <input type="checkbox" id="navToggle">
+    <label for="navToggle" aria-label="メニュー">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </label>
-    <nav id="siteNav" style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
-      <a href="/" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">ホーム</a>
-      <a href="/rare-earth/" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">記事一覧</a>
-      <a href="/rare-earth/#company" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">企業分析</a>
-      <a href="/about/" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">asiatoproとは</a>
-      <div id="searchWrap" style="position:relative; margin-left:16px;">
-        <input id="siteSearch" type="search" placeholder="記事を検索" autocomplete="off" style="background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:999px; padding:6px 14px; font-size:0.85em; width:150px; outline:none;">
-        <div id="searchResults" style="display:none; position:absolute; top:38px; right:0; width:290px; max-height:320px; overflow-y:auto; background:#fff; border:1px solid #e2e8f0; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.18); z-index:200; text-align:left;"></div>
+    <nav id="siteNav">
+      <div id="searchWrap">
+        <input id="siteSearch" type="search" placeholder="記事を検索" autocomplete="off">
+        <div id="searchResults"></div>
       </div>
-      <a href="/lp/handbook/" style="color:#1a1206; background:#d97706; text-decoration:none; margin-left:16px; font-size:0.85em; font-weight:bold; padding:6px 14px; border-radius:999px;">無料ハンドブック</a>
+      <a href="/">ホーム</a>
+      <a href="/rare-earth/">記事一覧</a>
+      <a href="/rare-earth/#company">企業分析</a>
+      <a href="/about/">asiatoproとは</a>
+      <a href="/lp/handbook/" class="nav-cta">無料ハンドブック</a>
     </nav>
   </div>
 </header>
 <style>
+  #navToggle { display:none; }
+  #siteNav a { color:#e2e8f0; text-decoration:none; font-size:0.9em; }
+  #siteNav a.nav-cta { color:#1a1206; background:#d97706; font-weight:bold; padding:7px 16px; border-radius:999px; font-size:0.85em; }
+  #searchWrap { position:relative; }
+  #siteSearch { background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:999px; padding:7px 14px 7px 34px; font-size:0.85em; width:140px; outline:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2'><circle cx='7' cy='7' r='5'/><line x1='11' y1='11' x2='15' y2='15' stroke-linecap='round'/></svg>"); background-repeat:no-repeat; background-position:11px center; }
+  #siteSearch::placeholder { color:#64748b; }
+  #siteSearch:focus { border-color:#d97706; }
+  #searchResults { display:none; position:absolute; top:42px; right:0; width:300px; max-height:320px; overflow-y:auto; background:#fff; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.25); z-index:200; text-align:left; }
+  @media (min-width: 681px) {
+    label[for="navToggle"] { display:none; }
+    #siteNav { display:flex; align-items:center; gap:20px; }
+  }
   @media (max-width: 680px) {
-    label[for="navToggle"] { display:block !important; }
-    #siteNav { display:none !important; width:100%; flex-direction:column; align-items:flex-start; gap:10px; margin-top:14px; }
-    #navToggle:checked ~ #siteNav { display:flex !important; }
-    #searchWrap { width:100%; margin-left:16px; }
-    #siteSearch { width:calc(100% - 32px); }
-    #searchResults { width:100%; right:auto; left:0; }
+    label[for="navToggle"] { display:block; cursor:pointer; padding:4px; }
+    #siteNav { display:none; order:3; width:100%; flex-direction:column; align-items:stretch; gap:0; margin:6px -16px -4px; padding:6px 16px 14px; border-top:1px solid #1e293b; }
+    #navToggle:checked ~ #siteNav { display:flex; }
+    #siteNav a { display:flex; align-items:center; justify-content:space-between; padding:15px 2px; border-bottom:1px solid #1e293b; font-size:0.95em; }
+    #siteNav a::after { content:"›"; color:#475569; font-size:1.2em; }
+    #siteNav a.nav-cta { justify-content:center; margin-top:16px; padding:14px; border-radius:8px; border-bottom:none; font-size:0.95em; }
+    #siteNav a.nav-cta::after { content:""; }
+    #searchWrap { margin:8px 0 10px; }
+    #siteSearch { width:100%; padding-top:11px; padding-bottom:11px; }
+    #searchResults { width:100%; right:auto; left:0; top:50px; }
   }
   .re-article h2, .re-article h3 { scroll-margin-top: 84px; }
 </style>
@@ -200,12 +216,12 @@ function headerHtml() {
       return (a.t+' '+a.m+' '+a.c).toLowerCase().indexOf(q)>-1;
     }).slice(0,8);
     if(hits.length===0){
-      box.innerHTML='<p style="margin:0; padding:14px; color:#64748b; font-size:0.85em;">該当する記事がありません</p>';
+      box.innerHTML='<p style="margin:0; padding:16px; color:#64748b; font-size:0.85em;">該当する記事がありません</p>';
     }else{
       box.innerHTML=hits.map(function(a){
-        return '<a href="'+a.u+'" style="display:block; padding:11px 14px; border-bottom:1px solid #f1f5f9; text-decoration:none;">'+
-        '<span style="display:block; font-size:0.72em; color:#d97706; font-weight:bold;">'+a.c+'</span>'+
-        '<span style="display:block; font-size:0.86em; color:#0f172a; line-height:1.45;">'+a.t+'</span></a>';
+        return '<a href="'+a.u+'" style="display:block; padding:12px 15px; border-bottom:1px solid #f1f5f9; text-decoration:none;">'+
+        '<span style="display:block; font-size:0.7em; color:#d97706; font-weight:bold; margin-bottom:3px;">'+a.c+'</span>'+
+        '<span style="display:block; font-size:0.85em; color:#0f172a; line-height:1.45;">'+a.t+'</span></a>';
       }).join('');
     }
     box.style.display='block';
@@ -222,7 +238,7 @@ function headerHtml() {
 function announceHtml() {
   if (!ANNOUNCE.text) return '';
   return `<div style="background:#fef3c7; border-bottom:1px solid #fde68a;">
-  <div style="max-width:1100px; margin:0 auto; padding:9px 20px; font-size:0.86em; line-height:1.5; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+  <div style="max-width:860px; margin:0 auto; padding:9px 16px; font-size:0.86em; line-height:1.5; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
     <span style="background:#d97706; color:#fff; font-weight:bold; font-size:0.85em; padding:2px 8px; border-radius:4px; margin-right:8px;">お知らせ</span><a href="${ANNOUNCE.url}" style="color:#0f172a; text-decoration:underline;">${escapeHtml(ANNOUNCE.text)} →</a>
   </div>
 </div>`;
@@ -257,7 +273,7 @@ function thumbBoxHtml(article) {
   if (img) {
     return `<div style="aspect-ratio:1200/630; background:#0f172a url('${img}') center/cover no-repeat; border-radius:6px;"></div>`;
   }
-  return `<div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; border-bottom:3px solid #d97706;"><span style="color:#d97706; font-size:0.72em; font-weight:bold; letter-spacing:.1em;">${escapeHtml(article.category)}</span><span style="color:#475569; font-size:0.62em; letter-spacing:.14em;">ASIATOPRO</span></div>`;
+  return `<div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; border-bottom:3px solid #d97706;"><span style="color:#d97706; font-size:0.7em; font-weight:bold; letter-spacing:.1em;">${escapeHtml(article.category)}</span><span style="color:#475569; font-size:0.6em; letter-spacing:.14em;">ASIATOPRO</span></div>`;
 }
 
 function thumbCardHtml(article) {
@@ -281,10 +297,12 @@ function sectionTitle(text) {
 }
 
 function ctaHtml() {
-  return `<div style="background:#0f172a; border-radius:10px; padding:28px 24px; margin:0 0 40px; text-align:center;">
-  <p style="margin:0 0 8px; color:#fff; font-weight:bold; font-size:1.15em;">${escapeHtml(CTA.heading)}</p>
-  <p style="margin:0 0 18px; color:#94a3b8; font-size:0.92em; line-height:1.7;">${escapeHtml(CTA.body)}</p>
-  <a href="${CTA.url}" style="display:inline-block; background:#d97706; color:#1a1206; text-decoration:none; font-weight:bold; padding:13px 34px; border-radius:6px; font-size:1em;">${escapeHtml(CTA.button)}</a>
+  return `<div style="background:#0f172a; border-radius:10px; border-left:5px solid #d97706; padding:26px 22px; margin:0 0 40px;">
+  <span style="display:inline-block; background:rgba(217,119,6,.15); color:#d97706; font-size:0.7em; font-weight:bold; letter-spacing:.1em; padding:4px 10px; border-radius:4px; margin-bottom:12px;">無料配布中</span>
+  <p style="margin:0 0 10px; color:#fff; font-weight:bold; font-size:1.12em; line-height:1.5;">${escapeHtml(CTA.heading)}</p>
+  <p style="margin:0 0 20px; color:#94a3b8; font-size:0.9em; line-height:1.75;">${escapeHtml(CTA.body)}</p>
+  <a href="${CTA.url}" style="display:block; background:#d97706; color:#1a1206; text-decoration:none; font-weight:bold; padding:15px; border-radius:8px; font-size:0.98em; text-align:center;">${escapeHtml(CTA.button)}</a>
+  <p style="margin:12px 0 0; color:#64748b; font-size:0.76em;">メールアドレスの入力のみ。いつでも配信解除できます。</p>
 </div>`;
 }
 
@@ -327,40 +345,63 @@ ${gridHtml(list)}
 </section>`;
 }
 
-function footerHtml() {
-  return `<footer style="background:#0f172a; color:#94a3b8; padding:34px 20px; font-size:0.86em; line-height:1.8;">
-  <div style="max-width:760px; margin:0 auto;">
-    <div style="background:#1e293b; border-radius:8px; padding:20px; margin:0 0 20px;">
-      <p style="margin:0 0 4px; color:#fff; font-weight:bold; font-size:1.05em;">レアアース関連銘柄ハンドブック、無料配布中</p>
-      <p style="margin:0 0 14px; color:#94a3b8; font-size:0.92em;">主要16銘柄を一次情報ベースで整理した無料PDFです。</p>
-      <a href="/lp/handbook/" style="display:inline-block; background:#d97706; color:#1a1206; text-decoration:none; font-weight:bold; padding:10px 22px; border-radius:6px; font-size:0.9em;">無料で受け取る →</a>
+function footerHtml(articles) {
+  const cats = CATEGORY_ORDER.map((id) => {
+    const name = Object.keys(CATEGORY_TO_ID).find((k) => CATEGORY_TO_ID[k] === id);
+    return `<a href="/rare-earth/#${id}" style="color:#94a3b8; text-decoration:none; font-size:0.86em; display:block; padding:5px 0;">${escapeHtml(name)}</a>`;
+  }).join('\n');
+  const sns = [
+    ['X', 'https://x.com/Asiatopro'],
+    ['Bluesky', 'https://bsky.app/profile/asiatopro.bsky.social'],
+    ['Threads', 'https://www.threads.net/@asiatopro'],
+  ]
+    .map(
+      ([n, u]) =>
+        `<a href="${u}" style="color:#cbd5e1; text-decoration:none; font-size:0.8em; border:1px solid #334155; border-radius:999px; padding:6px 16px;">${n}</a>`
+    )
+    .join('\n');
+  return `<footer style="background:#0f172a; color:#94a3b8;">
+  <div style="max-width:860px; margin:0 auto; padding:36px 16px 28px;">
+
+    <div style="display:flex; flex-wrap:wrap; gap:28px 40px; margin:0 0 28px;">
+      <div style="flex:1 1 200px; min-width:0;">
+        <img src="/assets/logo/asiatopro-white.png" alt="Asiatopro" style="height:30px; width:auto; display:block; margin:0 0 12px;">
+        <p style="margin:0; font-size:0.84em; line-height:1.85; color:#64748b;">日本のレアアース産業を、一次情報にもとづいて記録する専門メディアです。</p>
+      </div>
+      <div style="flex:0 1 130px;">
+        <p style="margin:0 0 8px; color:#fff; font-size:0.8em; font-weight:bold; letter-spacing:.06em;">カテゴリ</p>
+${cats}
+      </div>
+      <div style="flex:0 1 130px;">
+        <p style="margin:0 0 8px; color:#fff; font-size:0.8em; font-weight:bold; letter-spacing:.06em;">サイト情報</p>
+        <a href="/" style="color:#94a3b8; text-decoration:none; font-size:0.86em; display:block; padding:5px 0;">ホーム</a>
+        <a href="/rare-earth/" style="color:#94a3b8; text-decoration:none; font-size:0.86em; display:block; padding:5px 0;">記事一覧</a>
+        <a href="/about/" style="color:#94a3b8; text-decoration:none; font-size:0.86em; display:block; padding:5px 0;">asiatoproとは</a>
+        <a href="/lp/handbook/" style="color:#94a3b8; text-decoration:none; font-size:0.86em; display:block; padding:5px 0;">無料ハンドブック</a>
+      </div>
     </div>
-    <p style="margin:0 0 16px;">
-      <a href="/" style="color:#94a3b8; text-decoration:none; margin-right:14px;">ホーム</a>
-      <a href="/rare-earth/" style="color:#94a3b8; text-decoration:none; margin-right:14px;">記事一覧</a>
-      <a href="/about/" style="color:#94a3b8; text-decoration:none;">asiatoproとは</a>
-    </p>
-    <p style="margin:0 0 16px;">
-      <a href="https://x.com/Asiatopro" style="color:#94a3b8; text-decoration:none; margin-right:16px;">X</a>
-      <a href="https://bsky.app/profile/asiatopro.bsky.social" style="color:#94a3b8; text-decoration:none; margin-right:16px;">Bluesky</a>
-      <a href="https://www.threads.net/@asiatopro" style="color:#94a3b8; text-decoration:none;">Threads</a>
-    </p>
-    <div style="border-top:1px solid #334155; padding-top:16px;">
-      <p style="margin:0 0 8px; color:#64748b;">本サイトの記事は情報提供を目的としたものであり、特定銘柄の売買を推奨・勧誘するものではありません。投資判断はご自身の責任で行ってください。</p>
-      <p style="margin:0; color:#64748b;">&copy; 2026 Asiatopro.com</p>
+
+    <div style="display:flex; flex-wrap:wrap; gap:10px; margin:0 0 26px;">
+${sns}
     </div>
+
+    <div style="border-top:1px solid #1e293b; padding-top:20px;">
+      <p style="margin:0 0 10px; color:#64748b; font-size:0.78em; line-height:1.85;">本サイトの記事は情報提供を目的としたものであり、特定銘柄の売買を推奨・勧誘するものではありません。投資判断はご自身の責任で行ってください。掲載内容は執筆時点の公表資料に基づきます。</p>
+      <p style="margin:0; color:#475569; font-size:0.78em;">&copy; 2026 Asiatopro.com</p>
+    </div>
+
   </div>
 </footer>`;
 }
 
 function belowHtml(articles, current) {
-  return `<div style="max-width:760px; margin:0 auto; padding:0 16px 20px;">
+  return `<div style="max-width:860px; margin:0 auto; padding:36px 16px 24px;">
 ${ctaHtml()}
 ${relatedHtml(articles, current)}
 ${tagsHtml(articles)}
 ${latestHtml(articles, current)}
 </div>
-${footerHtml()}`;
+${footerHtml(articles)}`;
 }
 
 function adHtml() {
