@@ -35,7 +35,9 @@ category: 企業分析
   </script>
   <style>
     .re-article *, .re-article *::before, .re-article *::after { box-sizing: border-box; }
-    .re-article h1, .re-article h2, .re-article h3, .re-article p, .re-article ul, .re-article table { margin: 0; padding: 0; }
+    .re-article h1, .re-article h2, .re-article h3, .re-article ul, .re-article table { margin: 0; padding: 0; }
+    .re-article p { margin: 0; }
+    body { margin: 0; }
     body {
       font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif;
       background: #ffffff;
@@ -83,9 +85,8 @@ category: 企業分析
 
     /* ===== LEAD ===== */
     .re-lead {
-      background: #fef3c7;
-      border-left: 4px solid #d97706;
-      padding: 18px 20px;
+      background: #fffbeb;
+      padding: 22px 24px;
       margin: 0 0 28px;
       font-size: 0.97rem;
       line-height: 1.85;
@@ -97,8 +98,7 @@ category: 企業分析
     .re-highlight {
       background: #0f172a;
       color: #e2e8f0;
-      border-left: 4px solid #d97706;
-      padding: 18px 22px;
+      padding: 22px 24px;
       margin: 24px 0;
       border-radius: 4px;
       font-size: 0.92rem;
@@ -108,14 +108,20 @@ category: 企業分析
 
     /* ===== H2 ===== */
     h2.re-h2 {
-      background: #0f172a;
-      color: #fff;
-      border-left: 5px solid #d97706;
-      padding: 14px 20px;
-      font-size: 1.05rem;
+      color: #0f172a;
+      padding: 0 0 10px;
+      font-size: 1.12rem;
       font-weight: 700;
-      margin: 40px 0 18px;
-      border-radius: 3px;
+      margin: 46px 0 20px;
+      border-bottom: 2px solid #e2e8f0;
+      position: relative;
+    }
+    h2.re-h2::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: -2px;
+      width: 56px; height: 2px;
+      background: #d97706;
     }
 
     /* ===== H3 ===== */
@@ -215,30 +221,6 @@ category: 企業分析
     }
     .company-card-item .label { font-size: 0.72rem; color: #94a3b8; margin-bottom: 2px; }
     .company-card-item .value { font-size: 0.92rem; color: #f1f5f9; font-weight: 600; }
-
-    /* ===== ARTICLE NAV ===== */
-    .article-nav {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 40px 0 0;
-      padding: 0;
-    }
-    .article-nav a {
-      display: block;
-      background: #0f172a;
-      color: #e2e8f0;
-      text-decoration: none;
-      padding: 14px 18px;
-      border-radius: 4px;
-      font-size: 0.82rem;
-      line-height: 1.5;
-      flex: 1;
-    }
-    .article-nav a:hover { background: #1e3a5f; }
-    .article-nav .nav-label { font-size: 0.7rem; color: #94a3b8; display: block; margin-bottom: 4px; }
-    .article-nav .nav-prev { border-left: 3px solid #d97706; }
-    .article-nav .nav-next { border-right: 3px solid #d97706; text-align: right; }
 
   </style>
 </head>
@@ -643,17 +625,6 @@ category: 企業分析
 
   <div class="re-note">
     ※ 本記事の財務データは2026年5月13日発表の2026年3月期決算短信（連結）および会社計画に基づきます。レアアース関連の記述は、東亜建設工業の2018年4月10日・2021年2月8日付プレスリリース、JAMSTECの2025年12月23日・2026年2月2日・2026年7月24日付発表、および解泥技術の受託体制に関する報道に基づきます。2026年2月以降の採鉱試験における同社の具体的な関与については公表資料が確認できないため、本記事では推測を事実として記載していません。本記事は投資助言ではありません。数値の利用にあたっては必ず最新のIR資料をご確認ください。
-  </div>
-
-  <div class="article-nav">
-    <a href="/rare-earth/company-mitsui-kinzoku/" class="nav-prev">
-      <span class="nav-label">← 前の記事</span>
-      三井金属（5706）徹底解説
-    </a>
-    <a href="/rare-earth/" class="nav-next">
-      <span class="nav-label">記事一覧へ →</span>
-      レアアース記事一覧
-    </a>
   </div>
 
 </div><!-- /.re-article -->
