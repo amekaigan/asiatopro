@@ -175,8 +175,8 @@ function headerHtml() {
 <style>
   @media (max-width: 680px) {
     label[for="navToggle"] { display:block !important; }
-    #siteNav { display:none; width:100%; flex-direction:column; align-items:flex-start; gap:10px; margin-top:14px; }
-    #navToggle:checked ~ div #siteNav { display:flex; }
+    #siteNav { display:none !important; width:100%; flex-direction:column; align-items:flex-start; gap:10px; margin-top:14px; }
+    #navToggle:checked ~ #siteNav { display:flex !important; }
     #searchWrap { width:100%; margin-left:16px; }
     #siteSearch { width:calc(100% - 32px); }
     #searchResults { width:100%; right:auto; left:0; }
@@ -257,7 +257,7 @@ function thumbBoxHtml(article) {
   if (img) {
     return `<div style="aspect-ratio:1200/630; background:#0f172a url('${img}') center/cover no-repeat; border-radius:6px;"></div>`;
   }
-  return `<div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">${escapeHtml(article.category)}</span></div>`;
+  return `<div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; border-bottom:3px solid #d97706;"><span style="color:#d97706; font-size:0.72em; font-weight:bold; letter-spacing:.1em;">${escapeHtml(article.category)}</span><span style="color:#475569; font-size:0.62em; letter-spacing:.14em;">ASIATOPRO</span></div>`;
 }
 
 function thumbCardHtml(article) {
@@ -271,7 +271,7 @@ function thumbCardHtml(article) {
 }
 
 function gridHtml(list) {
-  return `<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px;">
+  return `<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:12px;">
 ${list.map(thumbCardHtml).join('\n')}
 </div>`;
 }
