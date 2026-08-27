@@ -245,6 +245,98 @@ category: 企業分析
 <body>
 
 <!-- AUTO:HEADER:START -->
+<header style="background:#0f172a; padding:14px 20px; position:sticky; top:0; z-index:100; box-shadow:0 2px 16px rgba(0,0,0,.3);">
+  <div style="max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+    <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px;"><img src="/assets/logo/asiatopro-white.png" alt="Asiatopro" style="height:34px; width:auto; display:block;"><span style="font-size:0.65em; color:#94a3b8; font-weight:normal;">レアアース専門メディア</span></a>
+    <input type="checkbox" id="navToggle" style="display:none;">
+    <label for="navToggle" style="display:none; cursor:pointer; padding:6px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </label>
+    <nav id="siteNav" style="display:flex; align-items:center; gap:4px; flex-wrap:wrap;">
+      <a href="/" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">ホーム</a>
+      <a href="/rare-earth/" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">記事一覧</a>
+      <a href="/rare-earth/#company" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">企業分析</a>
+      <a href="/about/" style="color:#e2e8f0; text-decoration:none; margin-left:16px; font-size:0.9em;">asiatoproとは</a>
+      <div id="searchWrap" style="position:relative; margin-left:16px;">
+        <input id="siteSearch" type="search" placeholder="記事を検索" autocomplete="off" style="background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:999px; padding:6px 14px; font-size:0.85em; width:150px; outline:none;">
+        <div id="searchResults" style="display:none; position:absolute; top:38px; right:0; width:290px; max-height:320px; overflow-y:auto; background:#fff; border:1px solid #e2e8f0; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.18); z-index:200; text-align:left;"></div>
+      </div>
+      <a href="/lp/handbook/" style="color:#1a1206; background:#d97706; text-decoration:none; margin-left:16px; font-size:0.85em; font-weight:bold; padding:6px 14px; border-radius:999px;">無料ハンドブック</a>
+    </nav>
+  </div>
+</header>
+<style>
+  @media (max-width: 680px) {
+    label[for="navToggle"] { display:block !important; }
+    #siteNav { display:none; width:100%; flex-direction:column; align-items:flex-start; gap:10px; margin-top:14px; }
+    #navToggle:checked ~ div #siteNav { display:flex; }
+    #searchWrap { width:100%; margin-left:16px; }
+    #siteSearch { width:calc(100% - 32px); }
+    #searchResults { width:100%; right:auto; left:0; }
+  }
+  .re-article h2, .re-article h3 { scroll-margin-top: 84px; }
+</style>
+<script>
+(function(){
+  var input=document.getElementById('siteSearch');
+  var box=document.getElementById('searchResults');
+  if(!input||!box)return;
+  var data=null,loading=false;
+  function load(){
+    if(data||loading)return;loading=true;
+    fetch('/search-index.json').then(function(r){return r.json();}).then(function(j){data=j;loading=false;render();}).catch(function(){loading=false;});
+  }
+  function render(){
+    var q=input.value.trim().toLowerCase();
+    if(!q||!data){box.style.display='none';box.innerHTML='';return;}
+    var hits=data.filter(function(a){
+      return (a.t+' '+a.m+' '+a.c).toLowerCase().indexOf(q)>-1;
+    }).slice(0,8);
+    if(hits.length===0){
+      box.innerHTML='<p style="margin:0; padding:14px; color:#64748b; font-size:0.85em;">該当する記事がありません</p>';
+    }else{
+      box.innerHTML=hits.map(function(a){
+        return '<a href="'+a.u+'" style="display:block; padding:11px 14px; border-bottom:1px solid #f1f5f9; text-decoration:none;">'+
+        '<span style="display:block; font-size:0.72em; color:#d97706; font-weight:bold;">'+a.c+'</span>'+
+        '<span style="display:block; font-size:0.86em; color:#0f172a; line-height:1.45;">'+a.t+'</span></a>';
+      }).join('');
+    }
+    box.style.display='block';
+  }
+  input.addEventListener('focus',load);
+  input.addEventListener('input',function(){load();render();});
+  document.addEventListener('click',function(e){
+    if(!document.getElementById('searchWrap').contains(e.target)){box.style.display='none';}
+  });
+})();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "東亜建設工業（1885）徹底分析｜海底6,000m級からレアアースを掘る「マリコン」の実力",
+  "description": "海洋土木国内2位の東亜建設工業（1885）を徹底解説。南鳥島レアアース泥の解泥技術をJAMSTECから受託開発した実績、2026年3月期の過去最高業績、洋上風力・防衛港湾という三つの成長ドライバーを、同社プレスリリースとJAMSTEC公表資料をもとに分析します。",
+  "datePublished": "2026-08-27",
+  "dateModified": "2026-08-27",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://asiatopro.com/rare-earth/company-toa-const/"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Asiatopro"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Asiatopro",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://asiatopro.com/assets/logo/asiatopro-white.png"
+    }
+  },
+  "image": "https://asiatopro.com/assets/thumb/company-daiichi-kigenso.png"
+}
+</script>
 <!-- AUTO:HEADER:END -->
 
   <!-- AUTO:ANNOUNCE:START -->
@@ -343,7 +435,12 @@ category: 企業分析
   <p>マリコンとは「マリン（海洋）＋コンストラクション（建設）」の略称で、港湾・海洋建設を専業あるいは主体とするゼネコンを指す。一般のゼネコンがビルや道路を建てるのに対し、マリコンは港湾岸壁・防波堤・海底トンネル・埋立地・浚渫工事など、水際から海中・海底にかけての工事を手がける。国土交通省が海洋インフラ整備を所管し、公共工事発注が安定しているため、業態として景気に左右されにくい面を持つ。</p>
 
   <!-- AUTO:AD:START -->
-  <!-- AUTO:AD:END -->
+<div style="border:1px solid #e2e8f0; border-radius:8px; padding:18px; margin:28px 0; background:#f8fafc;">
+  <span style="display:inline-block; font-size:0.7em; color:#64748b; border:1px solid #cbd5e1; border-radius:3px; padding:1px 6px; margin-bottom:10px;">PR</span>
+  <p style="margin:0 0 10px; font-weight:bold; color:#0f172a;">レアアース関連銘柄ハンドブック、無料配布中</p>
+<a href="/lp/handbook/" style="display:inline-block; background:#d97706; color:#1a1206; text-decoration:none; font-weight:bold; padding:9px 20px; border-radius:6px; font-size:0.9em;">無料で受け取る →</a>
+</div>
+<!-- AUTO:AD:END -->
   
   <!-- ===== H2: 技術 ===== -->
   <h2 class="re-h2">② 独自技術——「解泥」と「揚泥」の世界的フロントランナー</h2>
@@ -547,6 +644,113 @@ category: 企業分析
 </main>
 
 <!-- AUTO:BELOW:START -->
+<div style="max-width:760px; margin:0 auto; padding:0 16px 20px;">
+<div style="background:#0f172a; border-radius:10px; padding:28px 24px; margin:0 0 40px; text-align:center;">
+  <p style="margin:0 0 8px; color:#fff; font-weight:bold; font-size:1.15em;">レアアース関連銘柄ハンドブック（無料）</p>
+  <p style="margin:0 0 18px; color:#94a3b8; font-size:0.92em; line-height:1.7;">主要16銘柄を一次情報ベースで整理したPDFを無料で配布しています。煽らず、事実だけを積み上げた資料です。</p>
+  <a href="/lp/handbook/" style="display:inline-block; background:#d97706; color:#1a1206; text-decoration:none; font-weight:bold; padding:13px 34px; border-radius:6px; font-size:1em;">無料で受け取る →</a>
+</div>
+<section style="margin:0 0 40px;">
+<h2 style="font-size:1.15em; color:#0f172a; border-left:4px solid #d97706; padding-left:12px; margin:0 0 18px;">関連記事</h2>
+<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px;">
+<a href="/rare-earth/company-marubeni/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">丸紅【8002】徹底解説｜JX金属と挑む豪Copiミネラルサンド開発、「永久磁石原料」への布石</span>
+  </div>
+</a>
+<a href="/rare-earth/company-proterial/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">プロテリアル(旧日立金属)徹底解説｜世界最高峰のネオジム磁石「NEOMAX」と再上場へ動く非上場の巨人</span>
+  </div>
+</a>
+<a href="/rare-earth/company-dowa-mitsubishi/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">DOWA vs 三菱マテリアル徹底比較｜「都市鉱山」レアアースリサイクルを競う2大非鉄コングロマリットの実力</span>
+  </div>
+</a>
+<a href="/rare-earth/company-emulsion-flow/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">エマルションフローテクノロジーズ徹底解説｜原子力機構発の技術で挑む、非上場ベンチャーのレアメタル水平リサイクル</span>
+  </div>
+</a>
+</div>
+</section>
+<section style="margin:0 0 40px;">
+<h2 style="font-size:1.15em; color:#0f172a; border-left:4px solid #d97706; padding-left:12px; margin:0 0 18px;">カテゴリから探す</h2>
+<div>
+<a href="/rare-earth/#basics" style="display:inline-block; background:#f1f5f9; color:#0f172a; text-decoration:none; font-size:0.85em; padding:7px 15px; border-radius:999px; margin:0 8px 8px 0;">基礎・技術解説 <span style="color:#64748b;">5</span></a>
+<a href="/rare-earth/#news" style="display:inline-block; background:#f1f5f9; color:#0f172a; text-decoration:none; font-size:0.85em; padding:7px 15px; border-radius:999px; margin:0 8px 8px 0;">最新動向・時事 <span style="color:#64748b;">3</span></a>
+<a href="/rare-earth/#industry" style="display:inline-block; background:#f1f5f9; color:#0f172a; text-decoration:none; font-size:0.85em; padding:7px 15px; border-radius:999px; margin:0 8px 8px 0;">産業構造・技術動向 <span style="color:#64748b;">3</span></a>
+<a href="/rare-earth/#market" style="display:inline-block; background:#f1f5f9; color:#0f172a; text-decoration:none; font-size:0.85em; padding:7px 15px; border-radius:999px; margin:0 8px 8px 0;">市場・投資 <span style="color:#64748b;">2</span></a>
+<a href="/rare-earth/#company" style="display:inline-block; background:#f1f5f9; color:#0f172a; text-decoration:none; font-size:0.85em; padding:7px 15px; border-radius:999px; margin:0 8px 8px 0;">企業分析 <span style="color:#64748b;">17</span></a>
+</div>
+</section>
+<section style="margin:0 0 40px;">
+<h2 style="font-size:1.15em; color:#0f172a; border-left:4px solid #d97706; padding-left:12px; margin:0 0 18px;">最新記事</h2>
+<div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px;">
+<a href="/rare-earth/company-marubeni/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">丸紅【8002】徹底解説｜JX金属と挑む豪Copiミネラルサンド開発、「永久磁石原料」への布石</span>
+  </div>
+</a>
+<a href="/rare-earth/company-proterial/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">プロテリアル(旧日立金属)徹底解説｜世界最高峰のネオジム磁石「NEOMAX」と再上場へ動く非上場の巨人</span>
+  </div>
+</a>
+<a href="/rare-earth/company-dowa-mitsubishi/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">DOWA vs 三菱マテリアル徹底比較｜「都市鉱山」レアアースリサイクルを競う2大非鉄コングロマリットの実力</span>
+  </div>
+</a>
+<a href="/rare-earth/company-emulsion-flow/" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  <div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; align-items:center; justify-content:center;"><span style="color:#d97706; font-size:0.78em; font-weight:bold; letter-spacing:.08em;">企業分析</span></div>
+  <div style="padding:12px 14px;">
+    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">企業分析</span>
+    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">エマルションフローテクノロジーズ徹底解説｜原子力機構発の技術で挑む、非上場ベンチャーのレアメタル水平リサイクル</span>
+  </div>
+</a>
+</div>
+<p style="margin:18px 0 0;"><a href="/rare-earth/" style="color:#d97706; font-weight:bold; text-decoration:none; font-size:0.92em;">記事一覧をすべて見る →</a></p>
+</section>
+</div>
+<footer style="background:#0f172a; color:#94a3b8; padding:34px 20px; font-size:0.86em; line-height:1.8;">
+  <div style="max-width:760px; margin:0 auto;">
+    <div style="background:#1e293b; border-radius:8px; padding:20px; margin:0 0 20px;">
+      <p style="margin:0 0 4px; color:#fff; font-weight:bold; font-size:1.05em;">レアアース関連銘柄ハンドブック、無料配布中</p>
+      <p style="margin:0 0 14px; color:#94a3b8; font-size:0.92em;">主要16銘柄を一次情報ベースで整理した無料PDFです。</p>
+      <a href="/lp/handbook/" style="display:inline-block; background:#d97706; color:#1a1206; text-decoration:none; font-weight:bold; padding:10px 22px; border-radius:6px; font-size:0.9em;">無料で受け取る →</a>
+    </div>
+    <p style="margin:0 0 16px;">
+      <a href="/" style="color:#94a3b8; text-decoration:none; margin-right:14px;">ホーム</a>
+      <a href="/rare-earth/" style="color:#94a3b8; text-decoration:none; margin-right:14px;">記事一覧</a>
+      <a href="/about/" style="color:#94a3b8; text-decoration:none;">asiatoproとは</a>
+    </p>
+    <p style="margin:0 0 16px;">
+      <a href="https://x.com/Asiatopro" style="color:#94a3b8; text-decoration:none; margin-right:16px;">X</a>
+      <a href="https://bsky.app/profile/asiatopro.bsky.social" style="color:#94a3b8; text-decoration:none; margin-right:16px;">Bluesky</a>
+      <a href="https://www.threads.net/@asiatopro" style="color:#94a3b8; text-decoration:none;">Threads</a>
+    </p>
+    <div style="border-top:1px solid #334155; padding-top:16px;">
+      <p style="margin:0 0 8px; color:#64748b;">本サイトの記事は情報提供を目的としたものであり、特定銘柄の売買を推奨・勧誘するものではありません。投資判断はご自身の責任で行ってください。</p>
+      <p style="margin:0; color:#64748b;">&copy; 2026 Asiatopro.com</p>
+    </div>
+  </div>
+</footer>
 <!-- AUTO:BELOW:END -->
 
 </body>
