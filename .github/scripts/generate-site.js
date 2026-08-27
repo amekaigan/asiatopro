@@ -32,10 +32,18 @@ const FEATURED_SLUGS = [
 
 // 記事下の大きめCTA
 const CTA = {
-  heading: 'レアアース関連銘柄ハンドブック（無料）',
-  body: '主要16銘柄を一次情報ベースで整理したPDFを無料で配布しています。煽らず、事実だけを積み上げた資料です。',
+  heading: 'レアアース関連銘柄ハンドブック（全14ページ・無料）',
+  body: '南鳥島レアアース泥プロジェクトを軸に、採掘・精製・磁石加工・リサイクル・調達まで、日本の主要16銘柄を一冊で俯瞰できるPDFです。',
+  publisher:
+    'レアアース専門メディア「Asiatopro」が、各社の決算短信・IR資料・官公庁の公表資料のみをもとに、煽らず事実だけを積み上げて作成しました。',
   button: '無料で受け取る →',
   url: '/lp/handbook/',
+  // 中身のプレビュー画像。空配列 [] にすると非表示になります
+  previews: [
+    { src: '/assets/handbook/preview-cover.png', label: '表紙' },
+    { src: '/assets/handbook/preview-map.png', label: 'サプライチェーン全体マップ' },
+    { src: '/assets/handbook/preview-profile.png', label: '企業プロファイル集' },
+  ],
 };
 
 // 本文中の広告枠（AUTO:AD マーカーがある記事だけに挿入されます）
@@ -156,8 +164,9 @@ function headerHtml() {
   <div style="max-width:860px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
     <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px; min-width:0;"><img src="/assets/logo/asiatopro-white.png" alt="Asiatopro" style="height:32px; width:auto; display:block;"><span style="font-size:0.62em; color:#94a3b8; white-space:nowrap;">レアアース専門メディア</span></a>
     <input type="checkbox" id="navToggle">
-    <label for="navToggle" aria-label="メニュー">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <label for="navToggle" id="navBtn" aria-label="メニュー">
+      <svg class="ic-open" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="ic-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
     </label>
     <nav id="siteNav">
       <div id="searchWrap">
@@ -170,6 +179,7 @@ function headerHtml() {
       <a href="/rare-earth/#company">企業分析</a>
       <a href="/about/">asiatoproとは</a>
       <a href="/lp/handbook/" class="nav-cta">無料ハンドブック</a>
+      <label for="navToggle" class="nav-close">✕ 閉じる</label>
     </nav>
   </div>
 </header>
@@ -179,6 +189,10 @@ function headerHtml() {
   #siteNav, #siteNav *, #searchWrap, #searchWrap * { box-sizing:border-box; }
   #searchClear { display:none; position:absolute; top:50%; transform:translateY(-50%); right:10px; background:none; border:0; color:#64748b; font-size:0.9em; cursor:pointer; padding:4px 6px; line-height:1; }
   #searchClear:hover { color:#e2e8f0; }
+  #navBtn .ic-close { display:none; }
+  #navToggle:checked ~ #navBtn .ic-open { display:none; }
+  #navToggle:checked ~ #navBtn .ic-close { display:block; }
+  .nav-close { display:none; }
   #siteNav a { color:#e2e8f0; text-decoration:none; font-size:0.9em; }
   #siteNav a.nav-cta { color:#1a1206; background:#d97706; font-weight:bold; padding:7px 16px; border-radius:999px; font-size:0.85em; }
   #searchWrap { position:relative; }
@@ -189,6 +203,8 @@ function headerHtml() {
   @media (min-width: 681px) {
     label[for="navToggle"] { display:none; }
     #siteNav { display:flex; align-items:center; gap:22px; }
+    #siteSearch { width:210px; }
+    .nav-close { display:none !important; }
     #siteNav a { position:relative; padding:6px 0; transition:color .15s; }
     #siteNav a:not(.nav-cta):hover { color:#fbbf24; }
     #siteNav a:not(.nav-cta)::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#d97706; transform:scaleX(0); transition:transform .15s; }
@@ -204,11 +220,19 @@ function headerHtml() {
     #siteNav a.nav-cta { justify-content:center; margin-top:16px; padding:14px; border-radius:8px; border-bottom:none; font-size:0.95em; }
     #siteNav a.nav-cta::after { content:""; }
     #searchWrap { margin:8px 0 10px; width:100%; }
-    #siteSearch { width:100%; padding-top:11px; padding-bottom:11px; }
+    #siteSearch { width:100%; font-size:16px; padding-top:11px; padding-bottom:11px; }
+    .nav-close { display:block; text-align:center; color:#64748b; font-size:0.85em; padding:16px 0 4px; cursor:pointer; }
     #searchResults { width:100%; right:auto; left:0; top:50px; }
   }
   .re-article h2, .re-article h3 { scroll-margin-top: 84px; }
+  #toTop { position:fixed; right:16px; bottom:20px; width:46px; height:46px; border-radius:50%; background:#0f172a; border:1px solid #334155; color:#fff; display:none; align-items:center; justify-content:center; cursor:pointer; z-index:90; box-shadow:0 6px 18px rgba(15,23,42,.3); padding:0; }
+  #toTop:hover { background:#1e293b; border-color:#d97706; }
+  #toTop.show { display:flex; }
+  @media (min-width: 681px) { #toTop { right:28px; bottom:28px; width:50px; height:50px; } }
 </style>
+<button id="toTop" type="button" aria-label="ページ上部へ戻る">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="6"/><polyline points="5,13 12,6 19,13"/></svg>
+</button>
 <script>
 (function(){
   var input=document.getElementById('siteSearch');
@@ -252,6 +276,14 @@ function headerHtml() {
   document.addEventListener('click',function(e){
     if(!document.getElementById('searchWrap').contains(e.target)){close();}
   });
+})();
+(function(){
+  var btn=document.getElementById('toTop');
+  if(!btn)return;
+  function upd(){ if(window.scrollY>400){btn.classList.add('show');}else{btn.classList.remove('show');} }
+  window.addEventListener('scroll',upd,{passive:true});
+  btn.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+  upd();
 })();
 </script>`;
 }
@@ -318,13 +350,29 @@ function sectionTitle(text) {
 }
 
 function ctaHtml() {
-  return `<div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:26px 22px; margin:0 0 44px;">
-  <img src="/assets/logo/asiatopro-color.png" alt="Asiatopro" style="height:26px; width:auto; display:block; margin:0 0 14px;">
+  const prev =
+    CTA.previews && CTA.previews.length
+      ? `<div style="display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 0 14px; -webkit-overflow-scrolling:touch;">
+${CTA.previews
+  .map(
+    (p) => `<figure style="flex:0 0 128px; margin:0; scroll-snap-align:start;">
+  <img src="${p.src}" alt="${escapeHtml(p.label)}" loading="lazy" style="width:100%; height:auto; display:block; border:1px solid #e7e5e4; border-radius:5px; box-shadow:0 4px 12px rgba(15,23,42,.12);">
+  <figcaption style="margin:6px 0 0; font-size:0.68em; color:#a8a29e; text-align:center; line-height:1.4;">${escapeHtml(p.label)}</figcaption>
+</figure>`
+  )
+  .join('\n')}
+</div>
+<p style="margin:0 0 18px; color:#a8a29e; font-size:0.72em;">← 中身を少しだけ公開しています</p>`
+      : '';
+  return `<div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:28px 22px; margin:0 0 44px;">
+  <img src="/assets/logo/asiatopro-color.png" alt="Asiatopro" style="height:38px; width:auto; display:block; margin:0 0 16px;">
   <span style="display:inline-block; background:#d97706; color:#fff; font-size:0.68em; font-weight:bold; letter-spacing:.1em; padding:4px 10px; border-radius:4px; margin-bottom:12px;">無料配布中</span>
   <p style="margin:0 0 10px; color:#0f172a; font-weight:bold; font-size:1.1em; line-height:1.55;">${escapeHtml(CTA.heading)}</p>
-  <p style="margin:0 0 20px; color:#57534e; font-size:0.89em; line-height:1.8;">${escapeHtml(CTA.body)}</p>
+  <p style="margin:0 0 16px; color:#57534e; font-size:0.89em; line-height:1.8;">${escapeHtml(CTA.body)}</p>
+${prev}
   <a href="${CTA.url}" style="display:block; background:#0f172a; color:#fff; text-decoration:none; font-weight:bold; padding:15px; border-radius:8px; font-size:0.98em; text-align:center;">${escapeHtml(CTA.button)}</a>
   <p style="margin:12px 0 0; color:#a8a29e; font-size:0.75em; text-align:center;">メールアドレスの入力のみ／いつでも配信解除できます</p>
+  <p style="margin:16px 0 0; padding:14px 0 0; border-top:1px solid #fde68a; color:#78716c; font-size:0.76em; line-height:1.75;">${escapeHtml(CTA.publisher)}</p>
 </div>`;
 }
 
