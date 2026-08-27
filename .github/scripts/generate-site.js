@@ -152,7 +152,7 @@ function hasMarker(content, markerName) {
 /* ---------------- 共通パーツ ---------------- */
 
 function headerHtml() {
-  return `<header style="background:#0f172a; position:sticky; top:0; z-index:100; box-shadow:0 2px 16px rgba(0,0,0,.3);">
+  return `<header style="background:#0f172a; border-bottom:2px solid #d97706; position:sticky; top:0; z-index:100; box-shadow:0 2px 16px rgba(15,23,42,.25);">
   <div style="max-width:860px; margin:0 auto; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
     <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px; min-width:0;"><img src="/assets/logo/asiatopro-white.png" alt="Asiatopro" style="height:32px; width:auto; display:block;"><span style="font-size:0.62em; color:#94a3b8; white-space:nowrap;">レアアース専門メディア</span></a>
     <input type="checkbox" id="navToggle">
@@ -162,6 +162,7 @@ function headerHtml() {
     <nav id="siteNav">
       <div id="searchWrap">
         <input id="siteSearch" type="search" placeholder="記事を検索" autocomplete="off">
+        <button id="searchClear" type="button" aria-label="検索をやめる">✕</button>
         <div id="searchResults"></div>
       </div>
       <a href="/">ホーム</a>
@@ -173,17 +174,26 @@ function headerHtml() {
   </div>
 </header>
 <style>
+  body { margin:0; }
   #navToggle { display:none; }
+  #siteNav, #siteNav *, #searchWrap, #searchWrap * { box-sizing:border-box; }
+  #searchClear { display:none; position:absolute; top:50%; transform:translateY(-50%); right:10px; background:none; border:0; color:#64748b; font-size:0.9em; cursor:pointer; padding:4px 6px; line-height:1; }
+  #searchClear:hover { color:#e2e8f0; }
   #siteNav a { color:#e2e8f0; text-decoration:none; font-size:0.9em; }
   #siteNav a.nav-cta { color:#1a1206; background:#d97706; font-weight:bold; padding:7px 16px; border-radius:999px; font-size:0.85em; }
   #searchWrap { position:relative; }
-  #siteSearch { background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:999px; padding:7px 14px 7px 34px; font-size:0.85em; width:140px; outline:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2'><circle cx='7' cy='7' r='5'/><line x1='11' y1='11' x2='15' y2='15' stroke-linecap='round'/></svg>"); background-repeat:no-repeat; background-position:11px center; }
+  #siteSearch { box-sizing:border-box; max-width:100%; background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:999px; padding:7px 30px 7px 34px; font-size:0.85em; width:140px; outline:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2364748b' stroke-width='2'><circle cx='7' cy='7' r='5'/><line x1='11' y1='11' x2='15' y2='15' stroke-linecap='round'/></svg>"); background-repeat:no-repeat; background-position:11px center; }
   #siteSearch::placeholder { color:#64748b; }
   #siteSearch:focus { border-color:#d97706; }
   #searchResults { display:none; position:absolute; top:42px; right:0; width:300px; max-height:320px; overflow-y:auto; background:#fff; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.25); z-index:200; text-align:left; }
   @media (min-width: 681px) {
     label[for="navToggle"] { display:none; }
-    #siteNav { display:flex; align-items:center; gap:20px; }
+    #siteNav { display:flex; align-items:center; gap:22px; }
+    #siteNav a { position:relative; padding:6px 0; transition:color .15s; }
+    #siteNav a:not(.nav-cta):hover { color:#fbbf24; }
+    #siteNav a:not(.nav-cta)::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#d97706; transform:scaleX(0); transition:transform .15s; }
+    #siteNav a:not(.nav-cta):hover::after { transform:scaleX(1); }
+    #siteNav a.nav-cta:hover { background:#b45309; }
   }
   @media (max-width: 680px) {
     label[for="navToggle"] { display:block; cursor:pointer; padding:4px; }
@@ -193,7 +203,7 @@ function headerHtml() {
     #siteNav a::after { content:"›"; color:#475569; font-size:1.2em; }
     #siteNav a.nav-cta { justify-content:center; margin-top:16px; padding:14px; border-radius:8px; border-bottom:none; font-size:0.95em; }
     #siteNav a.nav-cta::after { content:""; }
-    #searchWrap { margin:8px 0 10px; }
+    #searchWrap { margin:8px 0 10px; width:100%; }
     #siteSearch { width:100%; padding-top:11px; padding-bottom:11px; }
     #searchResults { width:100%; right:auto; left:0; top:50px; }
   }
@@ -209,6 +219,9 @@ function headerHtml() {
     if(data||loading)return;loading=true;
     fetch('/search-index.json').then(function(r){return r.json();}).then(function(j){data=j;loading=false;render();}).catch(function(){loading=false;});
   }
+  function closeRow(){
+    return '<button type="button" id="searchClose" style="display:block; width:100%; background:#f8fafc; border:0; border-top:1px solid #e2e8f0; color:#64748b; font-size:0.8em; padding:11px; cursor:pointer;">閉じる</button>';
+  }
   function render(){
     var q=input.value.trim().toLowerCase();
     if(!q||!data){box.style.display='none';box.innerHTML='';return;}
@@ -216,20 +229,28 @@ function headerHtml() {
       return (a.t+' '+a.m+' '+a.c).toLowerCase().indexOf(q)>-1;
     }).slice(0,8);
     if(hits.length===0){
-      box.innerHTML='<p style="margin:0; padding:16px; color:#64748b; font-size:0.85em;">該当する記事がありません</p>';
+      box.innerHTML='<p style="margin:0; padding:16px; color:#64748b; font-size:0.85em;">該当する記事がありません</p>'+closeRow();
     }else{
       box.innerHTML=hits.map(function(a){
         return '<a href="'+a.u+'" style="display:block; padding:12px 15px; border-bottom:1px solid #f1f5f9; text-decoration:none;">'+
         '<span style="display:block; font-size:0.7em; color:#d97706; font-weight:bold; margin-bottom:3px;">'+a.c+'</span>'+
         '<span style="display:block; font-size:0.85em; color:#0f172a; line-height:1.45;">'+a.t+'</span></a>';
-      }).join('');
+      }).join('')+closeRow();
     }
     box.style.display='block';
   }
+  var clr=document.getElementById('searchClear');
+  function close(){box.style.display='none';}
+  function toggleClear(){if(clr)clr.style.display=input.value?'block':'none';}
   input.addEventListener('focus',load);
-  input.addEventListener('input',function(){load();render();});
+  input.addEventListener('input',function(){load();render();toggleClear();});
+  input.addEventListener('keydown',function(e){if(e.key==='Escape'){input.value='';close();toggleClear();input.blur();}});
+  if(clr)clr.addEventListener('click',function(){input.value='';close();toggleClear();input.focus();});
+  box.addEventListener('click',function(e){
+    if(e.target.id==='searchClose'){input.value='';close();toggleClear();}
+  });
   document.addEventListener('click',function(e){
-    if(!document.getElementById('searchWrap').contains(e.target)){box.style.display='none';}
+    if(!document.getElementById('searchWrap').contains(e.target)){close();}
   });
 })();
 </script>`;
@@ -277,7 +298,7 @@ function thumbBoxHtml(article) {
 }
 
 function thumbCardHtml(article) {
-  return `<a href="${article.permalink}" style="display:block; text-decoration:none; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+  return `<a href="${article.permalink}" style="display:block; text-decoration:none; background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
   ${thumbBoxHtml(article)}
   <div style="padding:12px 14px;">
     <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">${escapeHtml(article.category)}</span>
@@ -293,16 +314,17 @@ ${list.map(thumbCardHtml).join('\n')}
 }
 
 function sectionTitle(text) {
-  return `<h2 style="font-size:1.15em; color:#0f172a; border-left:4px solid #d97706; padding-left:12px; margin:0 0 18px;">${text}</h2>`;
+  return `<h2 style="font-size:1.05em; color:#0f172a; font-weight:700; letter-spacing:.02em; margin:0 0 16px; padding:0 0 8px; border-bottom:2px solid #e2e8f0; position:relative;"><span style="border-bottom:2px solid #d97706; padding-bottom:8px;">${text}</span></h2>`;
 }
 
 function ctaHtml() {
-  return `<div style="background:#0f172a; border-radius:10px; border-left:5px solid #d97706; padding:26px 22px; margin:0 0 40px;">
-  <span style="display:inline-block; background:rgba(217,119,6,.15); color:#d97706; font-size:0.7em; font-weight:bold; letter-spacing:.1em; padding:4px 10px; border-radius:4px; margin-bottom:12px;">無料配布中</span>
-  <p style="margin:0 0 10px; color:#fff; font-weight:bold; font-size:1.12em; line-height:1.5;">${escapeHtml(CTA.heading)}</p>
-  <p style="margin:0 0 20px; color:#94a3b8; font-size:0.9em; line-height:1.75;">${escapeHtml(CTA.body)}</p>
-  <a href="${CTA.url}" style="display:block; background:#d97706; color:#1a1206; text-decoration:none; font-weight:bold; padding:15px; border-radius:8px; font-size:0.98em; text-align:center;">${escapeHtml(CTA.button)}</a>
-  <p style="margin:12px 0 0; color:#64748b; font-size:0.76em;">メールアドレスの入力のみ。いつでも配信解除できます。</p>
+  return `<div style="background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:26px 22px; margin:0 0 44px;">
+  <img src="/assets/logo/asiatopro-color.png" alt="Asiatopro" style="height:26px; width:auto; display:block; margin:0 0 14px;">
+  <span style="display:inline-block; background:#d97706; color:#fff; font-size:0.68em; font-weight:bold; letter-spacing:.1em; padding:4px 10px; border-radius:4px; margin-bottom:12px;">無料配布中</span>
+  <p style="margin:0 0 10px; color:#0f172a; font-weight:bold; font-size:1.1em; line-height:1.55;">${escapeHtml(CTA.heading)}</p>
+  <p style="margin:0 0 20px; color:#57534e; font-size:0.89em; line-height:1.8;">${escapeHtml(CTA.body)}</p>
+  <a href="${CTA.url}" style="display:block; background:#0f172a; color:#fff; text-decoration:none; font-weight:bold; padding:15px; border-radius:8px; font-size:0.98em; text-align:center;">${escapeHtml(CTA.button)}</a>
+  <p style="margin:12px 0 0; color:#a8a29e; font-size:0.75em; text-align:center;">メールアドレスの入力のみ／いつでも配信解除できます</p>
 </div>`;
 }
 
@@ -395,12 +417,12 @@ ${sns}
 }
 
 function belowHtml(articles, current) {
-  return `<div style="max-width:860px; margin:0 auto; padding:36px 16px 24px;">
+  return `<div style="background:#f8fafc; border-top:1px solid #e2e8f0;"><div style="max-width:860px; margin:0 auto; padding:36px 16px 24px;">
 ${ctaHtml()}
 ${relatedHtml(articles, current)}
 ${tagsHtml(articles)}
 ${latestHtml(articles, current)}
-</div>
+</div></div>
 ${footerHtml(articles)}`;
 }
 
