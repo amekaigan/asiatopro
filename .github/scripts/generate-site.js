@@ -329,12 +329,19 @@ function thumbBoxHtml(article) {
   return `<div style="aspect-ratio:1200/630; background:linear-gradient(135deg,#0f172a,#1e293b); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; border-bottom:3px solid #d97706;"><span style="color:#d97706; font-size:0.7em; font-weight:bold; letter-spacing:.1em;">${escapeHtml(article.category)}</span><span style="color:#475569; font-size:0.6em; letter-spacing:.14em;">ASIATOPRO</span></div>`;
 }
 
+function shortTitle(title) {
+  // 「｜」以降の説明部分を落として、企業名・主題だけを残す
+  const t = (title || '').replace(/\s*[|｜]\s*Asiatopro.*$/, '');
+  const sep = t.search(/[|｜]/);
+  return sep > 0 && sep <= 24 ? t.slice(0, sep).trim() : t;
+}
+
 function thumbCardHtml(article) {
   return `<a href="${article.permalink}" style="display:block; text-decoration:none; background:#fff; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
   ${thumbBoxHtml(article)}
-  <div style="padding:12px 14px;">
-    <span style="display:block; font-size:0.74em; color:#d97706; font-weight:bold; margin-bottom:5px;">${escapeHtml(article.category)}</span>
-    <span style="display:block; font-size:0.92em; color:#0f172a; font-weight:bold; line-height:1.5;">${escapeHtml(article.title)}</span>
+  <div style="padding:11px 13px;">
+    <span style="display:block; font-size:0.72em; color:#d97706; font-weight:bold; margin-bottom:4px;">${escapeHtml(article.category)}</span>
+    <span style="display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; font-size:0.86em; color:#0f172a; font-weight:bold; line-height:1.55;">${escapeHtml(shortTitle(article.title))}</span>
   </div>
 </a>`;
 }
