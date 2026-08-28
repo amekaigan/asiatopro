@@ -46,6 +46,10 @@ const CTA = {
   ],
 };
 
+// Google Analytics 4 の測定ID（G-XXXXXXXXXX の形式）
+// 空文字 '' のあいだは何も挿入されません。GA4登録後にIDを入れてください。
+const GA4_ID = '';
+
 // 本文中の広告枠（AUTO:AD マーカーがある記事だけに挿入されます）
 // 未提携のうちはハンドブックCTAを表示します。提携後は html を差し替えてください。
 const AD_SLOT = {
@@ -288,6 +292,30 @@ function headerHtml() {
 </script>`;
 }
 
+const HEAD_START = '<!-- AUTO:HEAD:START -->';
+const HEAD_END = '<!-- AUTO:HEAD:END -->';
+
+function headTagsHtml() {
+  if (!GA4_ID) return '';
+  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '${GA4_ID}');
+</script>`;
+}
+
+// </head> の直前にブロックを差し込む。すでにあれば中身を入れ替える。
+function applyHeadTags(content) {
+  const inner = headTagsHtml();
+  const block = `${HEAD_START}\n${inner}\n${HEAD_END}`;
+  const regex = new RegExp(`${HEAD_START}[\\s\\S]*?${HEAD_END}`);
+  if (regex.test(content)) return content.replace(regex, block);
+  if (!content.includes('</head>')) return content;
+  return content.replace('</head>', `${block}\n</head>`);
+}
+
 function announceHtml() {
   if (!ANNOUNCE.text) return '';
   return `<div style="background:#fef3c7; border-bottom:1px solid #fde68a;">
@@ -523,7 +551,12 @@ function applyCommonBlocks(articles) {
   let count = 0;
   for (const file of files) {
     let content = fs.readFileSync(file, 'utf-8');
-    if (!hasMarker(content, 'HEADER') && !hasMarker(content, 'BELOW') && !hasMarker(content, 'AD')) continue;
+    const before = content;
+    content = applyHeadTags(content);
+    if (!hasMarker(content, 'HEADER') && !hasMarker(content, 'BELOW') && !hasMarker(content, 'AD')) {
+      if (content !== before) fs.writeFileSync(file, content);
+      continue;
+    }
 
     const info = extractMeta(content);
     const current = info && info.permalink ? articles.find((a) => a.permalink === info.permalink) : null;
