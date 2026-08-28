@@ -16,7 +16,8 @@ const DRY = !!process.env.DRY;
 
 function collect(dir, acc) {
   for (const d of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (d.name.startsWith('.') || d.name === 'node_modules' || d.name === 'assets') continue;
+    if (d.name.startsWith('.') || d.name === 'node_modules' || d.name === 'assets' || d.name === 'lp') continue;
+    if (d.isFile() && d.name.startsWith('google')) continue;
     const p = path.join(dir, d.name);
     if (d.isDirectory()) collect(p, acc);
     else if (d.name.endsWith('.html')) acc.push(p);
