@@ -18,6 +18,9 @@ body {
 
 /* ===== BREADCRUMB ===== */
 .breadcrumb {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   background: #e2e8f0;
   padding: 8px 20px;
   font-size: 0.78rem;
