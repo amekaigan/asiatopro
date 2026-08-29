@@ -17,8 +17,8 @@ const VISIBLE_COUNT = 5;
 
 // お知らせバー：text を空文字 '' にするとバー自体が非表示になります
 const ANNOUNCE = {
-  text: '',
-  url: '',
+  text: '南鳥島レアアース泥、2027年2月の採鉱試験に向けた最新状況を更新しました',
+  url: '/rare-earth/minamitorishima-mud/',
 };
 
 // トップページのスライダーに出す「おすすめ記事」の slug（表示順）
