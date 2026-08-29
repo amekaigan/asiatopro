@@ -1,0 +1,62 @@
+name: Strip article styles (one-time migration)
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: '実際に書き換える（false のあいだはログ出力のみ）'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+      file:
+        description: '1記事だけ試す場合は slug を入力（例: company-smm）。空なら全記事'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  strip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run strip-style
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.apply }}" = "true" ]; then
+            ARGS="$ARGS --apply"
+          fi
+          if [ -n "${{ github.event.inputs.file }}" ]; then
+            ARGS="$ARGS --file=${{ github.event.inputs.file }}"
+          fi
+          node .github/scripts/strip-style.js $ARGS
+
+      - name: Regenerate site listings
+        if: ${{ github.event.inputs.apply == 'true' }}
+        run: node .github/scripts/generate-site.js
+
+      - name: Commit changes
+        if: ${{ github.event.inputs.apply == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "変更なし。コミットしません。"
+            exit 0
+          fi
+          git commit -m "記事の<style>を削除し共通CSSへ移行 [skip ci]"
+          git pull --rebase origin main || git rebase --abort
+          git push || (git pull --rebase origin main && git push)
