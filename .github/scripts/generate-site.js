@@ -296,8 +296,10 @@ const HEAD_START = '<!-- AUTO:HEAD:START -->';
 const HEAD_END = '<!-- AUTO:HEAD:END -->';
 
 function headTagsHtml() {
-  if (!GA4_ID) return '';
-  return `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
+  const css = `<link rel="stylesheet" href="/assets/css/article.css">`;
+  if (!GA4_ID) return css;
+  return `${css}
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
