@@ -48,7 +48,7 @@ const CTA = {
 
 // Google Analytics 4 の測定ID（G-XXXXXXXXXX の形式）
 // 空文字 '' のあいだは何も挿入されません。GA4登録後にIDを入れてください。
-const GA4_ID = '';
+const GA4_ID = 'G-FTEMCMXTFV';
 
 // 本文中の広告枠（AUTO:AD マーカーがある記事だけに挿入されます）
 // 未提携のうちはハンドブックCTAを表示します。提携後は html を差し替えてください。
