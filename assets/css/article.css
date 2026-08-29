@@ -269,3 +269,10 @@ body {
   .re-article .article-header { padding: 24px 20px 20px; }
   .re-article .re-lead { padding: 18px 20px; }
 }
+
+/* 最初期記事の暫定対応（re-articleクラスを持たない記事の余白確保） */
+main > div:not(.re-article) {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+}
