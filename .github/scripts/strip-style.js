@@ -119,21 +119,69 @@ function removeArticleStyles(html, log) {
 const ARTICLEHEAD_BLOCK =
   '  <!-- AUTO:ARTICLEHEAD:START -->\n  <!-- AUTO:ARTICLEHEAD:END -->';
 
+// 開始タグの位置から、入れ子を数えて対応する終了タグの末尾位置を返す
+function matchingCloseIndex(html, openStart, tagName) {
+  const re = new RegExp(`<${tagName}\\b[^>]*>|</${tagName}\\s*>`, 'gi');
+  re.lastIndex = openStart;
+  let depth = 0;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    if (m[0][1] === '/') {
+      depth--;
+      if (depth === 0) return m.index + m[0].length;
+    } else {
+      depth++;
+    }
+  }
+  return -1;
+}
+
 function replaceH1(html, log, warn) {
   if (/AUTO:ARTICLEHEAD:START/i.test(html)) {
     log.push('  [h1] 既に AUTO:ARTICLEHEAD あり。スキップ');
     return html;
   }
 
-  const artRe = /<article\b[^>]*class=["'][^"']*\bre-article\b[^"']*["'][^>]*>/i;
+  // <article class="re-article"> でも <div class="re-article"> でも受け付ける
+  const artRe =
+    /<(article|div|section)\b[^>]*class=["'][^"']*\bre-article\b[^"']*["'][^>]*>/i;
   const art = html.match(artRe);
   if (!art) {
-    warn.push('  [h1] <article class="re-article"> が見つからない。手動で確認してください');
+    warn.push('  [h1] class="re-article" の要素が見つからない。手動で確認してください');
     return html;
   }
 
   const afterArt = art.index + art[0].length;
   const rest = html.slice(afterArt);
+
+  // 1) <div class="article-header"> があれば、そのブロックごと置き換える
+  const hdrRe =
+    /<(div|header)\b[^>]*class=["'][^"']*\barticle-header\b[^"']*["'][^>]*>/i;
+  const hdr = rest.match(hdrRe);
+  if (hdr && hdr.index < 3000) {
+    const hdrStart = afterArt + hdr.index;
+    const tag = hdr[1].toLowerCase();
+    const hdrEnd = matchingCloseIndex(html, hdrStart, tag);
+    if (hdrEnd === -1) {
+      warn.push('  [h1] article-header の閉じタグが見つからない。手動で確認してください');
+      return html;
+    }
+    const block = html.slice(hdrStart, hdrEnd);
+    if (!/<h1\b/i.test(block)) {
+      warn.push('  [h1] article-header の中に <h1> がない。手動で確認してください');
+      return html;
+    }
+    const title = oneLine(
+      (block.match(/<h1\b[^>]*>([\s\S]*?)<\/h1\s*>/i) || ['', ''])[1].replace(/<[^>]+>/g, ' '),
+      50
+    );
+    log.push(`  [h1] article-header ごとマーカーに置換 (${block.split('\n').length}行) : ${title}`);
+    return tidyBlankLines(
+      html.slice(0, hdrStart) + ARTICLEHEAD_BLOCK + html.slice(hdrEnd)
+    );
+  }
+
+  // 2) 裸の <h1> の場合
   const h1 = rest.match(/<h1\b[^>]*>[\s\S]*?<\/h1\s*>/i);
   if (!h1) {
     warn.push('  [h1] <h1> が見つからない。手動で確認してください');
@@ -141,13 +189,11 @@ function replaceH1(html, log, warn) {
   }
 
   const gap = rest.slice(0, h1.index);
-
-  // <h1> が div や header に包まれている場合は自動処理しない
   const opens = (gap.match(/<(?:div|header|section)\b/gi) || []).length;
   const closes = (gap.match(/<\/(?:div|header|section)\s*>/gi) || []).length;
   if (opens > closes) {
     warn.push(
-      '  [h1] <h1> が div/header に包まれている。囲み要素ごと手で消してから再実行してください'
+      '  [h1] <h1> が article-header 以外の要素に包まれている。手動で確認してください'
     );
     return html;
   }
