@@ -276,3 +276,55 @@ main > div:not(.re-article) {
   margin: 0 auto !important;
   padding: 0 16px 60px !important;
 }
+
+/* ===== 目次 ===== */
+.re-article .re-toc {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin: 32px 0;
+}
+.re-article .re-toc-title {
+  margin: 0 0 10px;
+  font-weight: bold;
+  color: #0f172a;
+  font-size: 0.95em;
+}
+.re-article .re-toc ol {
+  margin: 0;
+  padding-left: 22px;
+}
+.re-article .re-toc li {
+  margin: 6px 0;
+  line-height: 1.6;
+}
+.re-article .re-toc a {
+  color: #0f172a;
+  text-decoration: none;
+  border-bottom: 1px solid #cbd5e1;
+}
+.re-article .re-toc a:hover {
+  color: #d97706;
+  border-bottom-color: #d97706;
+}
+
+/* ===== 記事中の広告枠 ===== */
+.re-article .re-ad {
+  margin: 40px 0;
+  padding: 14px 0;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.re-article .re-ad-label {
+  display: block;
+  font-size: 0.7em;
+  color: #94a3b8;
+  letter-spacing: .1em;
+  margin-bottom: 8px;
+}
+
+/* 見出しへのジャンプ時にヘッダーで隠れないようにする */
+.re-article h2[id] {
+  scroll-margin-top: 90px;
+}
