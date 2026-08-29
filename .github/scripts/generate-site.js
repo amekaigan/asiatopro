@@ -349,6 +349,35 @@ function articleSchemaHtml(article) {
   return `<script type="application/ld+json">\n${JSON.stringify(obj, null, 2)}\n</script>`;
 }
 
+/* ---------------- 記事上部の見出しブロック ---------------- */
+
+// タイトルの「｜」を改行に変える（1行が長くなりすぎるのを防ぐ）
+function headlineHtml(title) {
+  const t = (title || '').replace(/\s*[|｜]\s*Asiatopro.*$/, '');
+  const parts = t.split(/[|｜]/);
+  return parts.map((s) => escapeHtml(s.trim())).join('<br>');
+}
+
+function formatJpDate(d) {
+  if (!d) return '';
+  const m = d.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return d;
+  return `${m[1]}年${Number(m[2])}月${Number(m[3])}日`;
+}
+
+function articleHeadHtml(article) {
+  if (!article) return '';
+  const pub = formatJpDate(article.published);
+  const upd = formatJpDate(article.updated);
+  let meta = `<span>公開：${pub}</span>`;
+  if (upd && upd !== pub) meta += `<span>更新：${upd}</span>`;
+  return `<div class="article-header">
+  <div class="article-category">${escapeHtml(article.category)}</div>
+  <h1>${headlineHtml(article.title)}</h1>
+  <div class="article-meta">${meta}</div>
+</div>`;
+}
+
 /* ---------------- 記事下のブロック ---------------- */
 
 function thumbBoxHtml(article) {
@@ -555,7 +584,7 @@ function applyCommonBlocks(articles) {
     let content = fs.readFileSync(file, 'utf-8');
     const before = content;
     content = applyHeadTags(content);
-    if (!hasMarker(content, 'HEADER') && !hasMarker(content, 'BELOW') && !hasMarker(content, 'AD')) {
+    if (!hasMarker(content, 'HEADER') && !hasMarker(content, 'BELOW') && !hasMarker(content, 'AD') && !hasMarker(content, 'ARTICLEHEAD')) {
       if (content !== before) fs.writeFileSync(file, content);
       continue;
     }
@@ -572,6 +601,9 @@ function applyCommonBlocks(articles) {
     }
     if (hasMarker(content, 'AD')) {
       content = replaceBetweenMarkers(content, 'AD', adHtml(), true);
+    }
+    if (hasMarker(content, 'ARTICLEHEAD')) {
+      content = replaceBetweenMarkers(content, 'ARTICLEHEAD', articleHeadHtml(current), true);
     }
     fs.writeFileSync(file, content);
     count++;
