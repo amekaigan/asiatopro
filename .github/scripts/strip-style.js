@@ -94,7 +94,8 @@ function removeArticleStyles(html, log) {
   while ((m = re.exec(html)) !== null) {
     const start = m.index;
     const end = start + m[0].length;
-    if (start < limit) continue;                 // </head> より前は触らない
+    // </head> より前でも、main{padding を含む記事用styleだけは削除する
+    if (start < limit && !/main\s*\{[^}]*padding/i.test(m[0])) continue;
     if (isInsideAuto(ranges, start, end)) continue; // AUTOマーカーの内側は触らない
     targets.push({ start, end, text: m[0] });
   }
