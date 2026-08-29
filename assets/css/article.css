@@ -272,7 +272,7 @@ body {
 
 /* 最初期記事の暫定対応（re-articleクラスを持たない記事の余白確保） */
 main > div:not(.re-article) {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0 16px 60px;
+  max-width: 860px !important;
+  margin: 0 auto !important;
+  padding: 0 16px 60px !important;
 }
