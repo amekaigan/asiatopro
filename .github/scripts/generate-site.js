@@ -46,6 +46,14 @@ const CTA = {
   ],
 };
 
+// ===== 記事本文中への自動挿入の設定 =====
+// 目次を出す最小h2数（これ未満の記事には目次を出さない）
+const TOC_MIN_H2 = 4;
+// 広告枠を出す最小h2数（これ未満の記事には広告を出さない）
+const AD_MIN_H2 = 5;
+// 広告枠を入れる位置（3 = 3つ目のh2の直前）
+const AD_BEFORE_NTH_H2 = 3;
+
 // Google Analytics 4 の測定ID（G-XXXXXXXXXX の形式）
 // 空文字 '' のあいだは何も挿入されません。GA4登録後にIDを入れてください。
 const GA4_ID = 'G-FTEMCMXTFV';
@@ -577,6 +585,138 @@ function collectHtmlFiles(dir, acc) {
   return acc;
 }
 
+/* ===== 記事本文中への自動挿入（目次・広告枠） ===== */
+
+// 記事本文の範囲（.re-article の中身）を返す
+function getBodyRange(html) {
+  const artRe = /<(article|div|section)\b[^>]*class=["'][^"']*\bre-article\b[^"']*["'][^>]*>/i;
+  const m = html.match(artRe);
+  if (!m) return null;
+  const start = m.index + m[0].length;
+  let depth = 1;
+  const scan = new RegExp(`<${m[1]}\\b[^>]*>|</${m[1]}\\s*>`, 'gi');
+  scan.lastIndex = start;
+  let s;
+  while ((s = scan.exec(html)) !== null) {
+    if (s[0][1] === '/') { depth--; if (depth === 0) return { start, end: s.index }; }
+    else depth++;
+  }
+  return { start, end: html.length };
+}
+
+// AUTOマーカーの範囲を列挙
+function autoRanges(html) {
+  const ranges = [];
+  const re = /<!--\s*AUTO:([A-Za-z0-9_]+):START\s*-->/gi;
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    const endRe = new RegExp('<!--\\s*AUTO:' + m[1] + ':END\\s*-->', 'i');
+    const em = html.slice(m.index).match(endRe);
+    ranges.push({ start: m.index, end: m.index + (em ? em.index + em[0].length : 0) });
+  }
+  return ranges;
+}
+
+function insideAuto(ranges, i) {
+  return ranges.some((r) => i >= r.start && i < r.end);
+}
+
+// 既存の AUTO:AD / AUTO:TOC ブロックを取り除く（毎回入れ直すため）
+function stripAutoBlock(html, name) {
+  const re = new RegExp(
+    `\\n?[ \\t]*<!--\\s*AUTO:${name}:START\\s*-->[\\s\\S]*?<!--\\s*AUTO:${name}:END\\s*-->[ \\t]*`,
+    'gi'
+  );
+  return html.replace(re, '');
+}
+
+// 本文中の h2 を列挙
+function findH2s(html) {
+  const range = getBodyRange(html);
+  if (!range) return [];
+  const auto = autoRanges(html);
+  const re = /<h2\b([^>]*)>([\s\S]*?)<\/h2\s*>/gi;
+  re.lastIndex = range.start;
+  const list = [];
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    if (m.index >= range.end) break;
+    if (insideAuto(auto, m.index)) continue;
+    const attrs = m[1] || '';
+    const idM = attrs.match(/\bid=["']([^"']+)["']/i);
+    list.push({
+      start: m.index,
+      end: m.index + m[0].length,
+      attrs,
+      id: idM ? idM[1] : null,
+      text: m[2].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+      inner: m[2],
+    });
+  }
+  return list;
+}
+
+function tocBlockHtml(items) {
+  const li = items
+    .map((it) => `    <li><a href="#${it.id}">${escapeHtml(it.text)}</a></li>`)
+    .join('\n');
+  return `<!-- AUTO:TOC:START -->
+<nav class="re-toc" aria-label="目次">
+  <p class="re-toc-title">目次</p>
+  <ol>
+${li}
+  </ol>
+</nav>
+<!-- AUTO:TOC:END -->`;
+}
+
+function adBlockHtml() {
+  return `<!-- AUTO:AD:START -->
+<div class="re-ad">
+  <span class="re-ad-label">${escapeHtml(AD_SLOT.label)}</span>
+${AD_SLOT.html}
+</div>
+<!-- AUTO:AD:END -->`;
+}
+
+// 記事HTMLに目次と広告枠を挿入して返す
+function applyInArticleBlocks(html) {
+  let out = stripAutoBlock(stripAutoBlock(html, 'TOC'), 'AD');
+
+  let h2s = findH2s(out);
+  if (h2s.length === 0) return out;
+
+  // h2 に id を自動付与（既存idは尊重）
+  if (h2s.length >= TOC_MIN_H2) {
+    for (let i = h2s.length - 1; i >= 0; i--) {
+      const h = h2s[i];
+      if (h.id) continue;
+      const newTag = `<h2${h.attrs} id="h2-${i + 1}">${h.inner}</h2>`;
+      out = out.slice(0, h.start) + newTag + out.slice(h.end);
+    }
+  }
+
+  // 広告枠：AD_BEFORE_NTH_H2 番目の h2 の直前
+  const items = findH2s(out);
+  if (items.length >= AD_MIN_H2 && AD_SLOT && AD_SLOT.html) {
+    const target = items[AD_BEFORE_NTH_H2 - 1];
+    if (target) {
+      out = out.slice(0, target.start) + adBlockHtml() + '\n' + out.slice(target.start);
+    }
+  }
+
+  // 目次：最初の h2 の直前
+  const items2 = findH2s(out);
+  if (items2.length >= TOC_MIN_H2) {
+    const withId = items2.filter((i) => i.id);
+    if (withId.length >= TOC_MIN_H2) {
+      out = out.slice(0, items2[0].start) + tocBlockHtml(withId) + '\n' + out.slice(items2[0].start);
+    }
+  }
+
+  return out;
+}
+
 function applyCommonBlocks(articles) {
   const files = collectHtmlFiles(ROOT, []);
   let count = 0;
@@ -591,6 +731,8 @@ function applyCommonBlocks(articles) {
 
     const info = extractMeta(content);
     const current = info && info.permalink ? articles.find((a) => a.permalink === info.permalink) : null;
+
+    content = applyInArticleBlocks(content);
 
     if (hasMarker(content, 'HEADER')) {
       const inner = [headerHtml(), announceHtml(), articleSchemaHtml(current)].filter(Boolean).join('\n');
