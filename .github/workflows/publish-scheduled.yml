@@ -1,0 +1,62 @@
+name: Publish scheduled articles
+
+on:
+  schedule:
+    # 15分ごとに実行（UTC）。GitHubの都合で数分〜十数分遅れることがある
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-scheduled
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Move due drafts
+        id: move
+        run: node .github/scripts/publish-scheduled.js
+
+      - name: Install Japanese fonts
+        if: steps.move.outputs.moved == 'true'
+        run: sudo apt-get install -y -qq fonts-noto-cjk
+
+      - name: Generate thumbnails
+        if: steps.move.outputs.moved == 'true'
+        run: |
+          npm install sharp --no-save --silent
+          node .github/scripts/gen-thumbs.js
+
+      - name: Regenerate site listings
+        if: steps.move.outputs.moved == 'true'
+        run: node .github/scripts/generate-site.js
+
+      - name: Run SNS posting script
+        if: steps.move.outputs.moved == 'true'
+        env:
+          BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+        run: node .github/scripts/social-post.js
+
+      - name: Commit generated changes
+        if: steps.move.outputs.moved == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet && exit 0
+          git commit -m "予約公開：記事を公開しました [skip ci]"
+          git pull --rebase origin main || git rebase --abort
+          git push || (git pull --rebase origin main && git push)
