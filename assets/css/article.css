@@ -332,3 +332,14 @@ main > div:not(.re-article):first-child:last-child {
 main > div[style*="border-radius:8px"] + div[style*="border-radius:8px"] {
   margin-top: 28px !important;
 }
+/* トップページのヒーロータイトル */
+.hero-title {
+  font-size: 1.8em;
+  line-height: 1.5;
+}
+.sp-br { display: none; }
+
+@media (max-width: 600px) {
+  .hero-title { font-size: 1.35em; }
+  .sp-br { display: inline; }
+}
