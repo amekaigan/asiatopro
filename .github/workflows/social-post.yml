@@ -28,7 +28,7 @@ jobs:
 
       - name: Generate thumbnails
         run: |
-          npm install sharp --no-save --silent
+          npm install sharp twitter-api-v2 --no-save --silent
           node .github/scripts/gen-thumbs.js
 
       - name: Regenerate site listings (rare-earth index, top page, sitemap)
