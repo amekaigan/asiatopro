@@ -340,9 +340,6 @@ main > div[style*="border-radius:8px"] + div[style*="border-radius:8px"] {
 .sp-br { display: none; }
 
 @media (max-width: 600px) {
-  .hero-title {
-    font-size: 1.25em;
-    white-space: nowrap;
-  }
+  .hero-title { font-size: 1.5em; }
   .sp-br { display: inline; }
 }
