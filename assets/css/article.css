@@ -330,5 +330,5 @@ main > div:not(.re-article):first-child:last-child {
 }
 /* トップページの記事カードの間隔 */
 main > div[style*="border-radius:8px"] + div[style*="border-radius:8px"] {
-  margin-top: 36px !important;
+  margin-top: 28px !important;
 }
