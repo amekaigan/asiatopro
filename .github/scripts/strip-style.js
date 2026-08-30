@@ -94,8 +94,7 @@ function removeArticleStyles(html, log) {
   while ((m = re.exec(html)) !== null) {
     const start = m.index;
     const end = start + m[0].length;
-    // </head> より前でも、main{padding を含む記事用styleだけは削除する
-    if (start < limit && !/main\s*\{[^}]*padding/i.test(m[0])) continue;
+    if (start < limit) continue;                 // </head> より前は触らない
     if (isInsideAuto(ranges, start, end)) continue; // AUTOマーカーの内側は触らない
     targets.push({ start, end, text: m[0] });
   }
@@ -304,6 +303,48 @@ function unifyBreadcrumb(html, log) {
 }
 
 /* ------------------------------------------------------------------ */
+/* 4b. パンくずを新形式（nav.breadcrumb）に変換                        */
+/* ------------------------------------------------------------------ */
+
+function convertBreadcrumb(html, log, warn) {
+  // 既に新形式なら何もしない
+  if (/<nav\b[^>]*class=["'][^"']*\bbreadcrumb\b/i.test(html)) return html;
+
+  const re =
+    /<(nav|div)\b[^>]*(?:aria-label=["']breadcrumb["']|class=["'][^"']*\bbreadcrumb\b[^"']*["'])[^>]*>([\s\S]*?)<\/\1\s*>/i;
+  const m = html.match(re);
+  if (!m) {
+    warn.push('  [パンくず] 見つからない。手動で確認してください');
+    return html;
+  }
+
+  // 最後のリンクより後ろのテキスト＝記事タイトル
+  const title = m[2]
+    .replace(/<a\b[\s\S]*?<\/a\s*>/gi, '\u0000')
+    .replace(/<[^>]+>/g, '')
+    .split('\u0000')
+    .pop()
+    .replace(/[›>＞»]|&gt;|&raquo;/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (!title) {
+    warn.push('  [パンくず] タイトルが取り出せない。手動で確認してください');
+    return html;
+  }
+
+  const replacement =
+    '<nav class="breadcrumb" aria-label="breadcrumb">\n' +
+    '  <a href="/">ホーム</a><span>›</span>\n' +
+    '  <a href="/rare-earth/">記事一覧</a><span>›</span>\n' +
+    '  ' + title + '\n' +
+    '</nav>';
+
+  log.push(`  [パンくず] 新形式に変換 : ${title}`);
+  return html.slice(0, m.index) + replacement + html.slice(m.index + m[0].length);
+}
+
+/* ------------------------------------------------------------------ */
 /* 5. 「2027年1月」の検出（報告のみ）                                  */
 /* ------------------------------------------------------------------ */
 
@@ -356,6 +397,7 @@ function main() {
     html = replaceH1(html, log, warn);
     html = wrapTables(html, log);
     html = unifyBreadcrumb(html, log);
+    html = convertBreadcrumb(html, log, warn);
     checkJanuary(html, warn);
 
     const dirty = html !== before;
