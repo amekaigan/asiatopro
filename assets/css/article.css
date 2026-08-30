@@ -270,12 +270,6 @@ body {
   .re-article .re-lead { padding: 18px 20px; }
 }
 
-/* 最初期記事の暫定対応（re-articleクラスを持たない記事の余白確保） */
-main > div:not(.re-article):first-child:last-child {
-  max-width: 860px !important;
-  margin: 0 auto !important;
-  padding: 0 16px 60px !important;
-}
 
 /* ===== 目次 ===== */
 .re-article .re-toc {
