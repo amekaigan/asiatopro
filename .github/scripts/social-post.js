@@ -119,28 +119,27 @@ async function postToBluesky(article) {
 
 // ---------- X (Twitter) ----------
 async function postToX(article) {
-  const bearer = process.env.X_ACCESS_TOKEN;
-  if (!bearer) {
+  const appKey = process.env.X_API_KEY;
+  const appSecret = process.env.X_API_SECRET;
+  const accessToken = process.env.X_ACCESS_TOKEN;
+  const accessSecret = process.env.X_ACCESS_SECRET;
+  if (!appKey || !appSecret || !accessToken || !accessSecret) {
     console.log('[X] 認証情報未設定のためスキップ');
     return;
   }
   const url = `${SITE_URL}${article.permalink}`;
   const text = truncate(`【新着】${article.title}`, 230) + `\n${url}`;
 
-  const res = await fetch('https://api.x.com/2/tweets', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${bearer}`,
-    },
-    body: JSON.stringify({ text }),
-  });
-  if (!res.ok) {
-    console.error('[X] 投稿失敗', await res.text());
-  } else {
+  try {
+    const { TwitterApi } = require('twitter-api-v2');
+    const client = new TwitterApi({ appKey, appSecret, accessToken, accessSecret });
+    await client.v2.tweet(text);
     console.log('[X] 投稿成功:', article.title);
+  } catch (e) {
+    console.error('[X] 投稿失敗', e && e.message ? e.message : e);
   }
 }
+
 
 // ---------- Threads ----------
 async function postToThreads(article) {
