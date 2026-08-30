@@ -337,9 +337,9 @@ main > div[style*="border-radius:8px"] + div[style*="border-radius:8px"] {
   font-size: 1.8em;
   line-height: 1.5;
 }
-.sp-br { display: none; }
+.hero-title span { display: inline; }
 
 @media (max-width: 600px) {
   .hero-title { font-size: 1.5em; }
-  .sp-br { display: inline; }
+  .hero-title span { display: block; }
 }
