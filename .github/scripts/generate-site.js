@@ -735,7 +735,11 @@ function applyCommonBlocks(articles) {
     content = applyInArticleBlocks(content);
 
     if (hasMarker(content, 'HEADER')) {
-      const inner = [headerHtml(), announceHtml(), articleSchemaHtml(current)].filter(Boolean).join('\n');
+      const isTop = /(^|\/)index\.html$/.test(file) && !/rare-earth|about|brokers|lp\//.test(file);
+      const parts = isTop
+        ? [headerHtml(), articleSchemaHtml(current)]
+        : [headerHtml(), announceHtml(), articleSchemaHtml(current)];
+      const inner = parts.filter(Boolean).join('\n');
       content = replaceBetweenMarkers(content, 'HEADER', inner, true);
     }
     if (hasMarker(content, 'BELOW')) {
