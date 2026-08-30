@@ -734,6 +734,10 @@ function applyCommonBlocks(articles) {
 
     content = applyInArticleBlocks(content);
 
+    if (hasMarker(content, 'ANNOUNCE')) {
+      content = replaceBetweenMarkers(content, 'ANNOUNCE', announceHtml(), true);
+    }
+
     if (hasMarker(content, 'HEADER')) {
       const isTop = /(^|\/)index\.html$/.test(file) && !/rare-earth|about|brokers|lp\//.test(file);
       const parts = isTop
