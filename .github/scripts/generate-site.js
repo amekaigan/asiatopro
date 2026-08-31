@@ -680,11 +680,12 @@ ${AD_SLOT.html}
 }
 
 // 記事HTMLに目次と広告枠を挿入して返す
-function applyInArticleBlocks(html) {
+function applyInArticleBlocks(html, file) {
   let out = stripAutoBlock(stripAutoBlock(html, 'TOC'), 'AD');
-
   let h2s = findH2s(out);
   if (h2s.length === 0) return out;
+  // /brokers/ は証券口座開設が目的のページのため、PR枠を入れない
+  const noAd = /(^|\/)brokers\//.test(file || '');
 
   // h2 に id を自動付与（既存idは尊重）
   if (h2s.length >= TOC_MIN_H2) {
@@ -698,7 +699,7 @@ function applyInArticleBlocks(html) {
 
   // 広告枠：AD_BEFORE_NTH_H2 番目の h2 の直前
   const items = findH2s(out);
-  if (items.length >= AD_MIN_H2 && AD_SLOT && AD_SLOT.html) {
+  if (!noAd && items.length >= AD_MIN_H2 && AD_SLOT && AD_SLOT.html) {
     const target = items[AD_BEFORE_NTH_H2 - 1];
     if (target) {
       out = out.slice(0, target.start) + adBlockHtml() + '\n' + out.slice(target.start);
@@ -732,7 +733,7 @@ function applyCommonBlocks(articles) {
     const info = extractMeta(content);
     const current = info && info.permalink ? articles.find((a) => a.permalink === info.permalink) : null;
 
-    content = applyInArticleBlocks(content);
+    content = applyInArticleBlocks(content, file);
 
     if (hasMarker(content, 'ANNOUNCE')) {
       content = replaceBetweenMarkers(content, 'ANNOUNCE', announceHtml(), true);
