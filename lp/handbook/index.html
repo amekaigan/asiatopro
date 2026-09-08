@@ -10,10 +10,13 @@
 <link rel="canonical" href="https://asiatopro.com/lp/handbook/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="レアアース関連銘柄ハンドブック【無料配布】">
-<meta property="og:description" content="日本のレアアース産業の全体像を、一次情報ベースで整理した無料ハンドブック。2027年2月の南鳥島 本格採鉱試験を前に。">
+<meta property="og:description" content="日本のレアアース産業の全体像を、一次情報ベースで整理した無料ハンドブック。A4・全14ページ・PDF。2027年2月の南鳥島 本格採鉱試験を前に。">
 <meta property="og:url" content="https://asiatopro.com/lp/handbook/">
 <meta property="og:site_name" content="Asiatopro">
+<meta property="og:image" content="https://asiatopro.com/assets/handbook/preview-cover.png">
+<meta property="og:image:alt" content="レアアース関連銘柄ハンドブックの表紙">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://asiatopro.com/assets/handbook/preview-cover.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&display=swap" rel="stylesheet">
@@ -69,8 +72,11 @@
     font-size:2.05rem;color:#fff;letter-spacing:.5px;
   }
   h1.headline em{color:var(--gold-lt);font-style:normal;}
+  .spec{
+    margin:14px 0 0;font-size:.8rem;color:var(--gold-lt);letter-spacing:1.5px;font-weight:700;
+  }
   .subhead{
-    margin:20px 0 0;font-size:1rem;color:#cbd5e1;line-height:1.95;
+    margin:18px 0 0;font-size:1rem;color:#cbd5e1;line-height:1.95;
     border-left:3px solid var(--gold);padding-left:16px;
   }
 
@@ -119,6 +125,30 @@
   .contents .t{font-weight:700;color:var(--navy);}
   .contents .d{color:var(--muted);font-size:.9rem;display:block;margin-top:2px;line-height:1.7;}
 
+  /* preview images */
+  .previews{margin-top:34px;}
+  .preview-item{margin-bottom:26px;}
+  .preview-item:last-child{margin-bottom:0;}
+  .preview-item img{
+    width:100%;display:block;border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 8px 24px rgba(15,23,42,.1);
+  }
+  .preview-item .cap{
+    font-size:.82rem;color:var(--muted);margin-top:10px;line-height:1.7;
+  }
+  .preview-item .cap b{color:var(--navy);font-weight:700;}
+
+  /* target audience */
+  .target{background:var(--paper);}
+  .target ul{list-style:none;margin:0;padding:0;}
+  .target li{
+    background:#fff;border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:8px;padding:15px 18px;margin-bottom:12px;
+    font-size:.95rem;color:var(--ink);line-height:1.8;
+  }
+  .target li:last-child{margin-bottom:0;}
+  .target .note{font-size:.85rem;color:var(--muted);margin-top:20px;line-height:1.8;}
+
   /* timeline (dark) */
   .timeline-sec{background:var(--navy);color:var(--on-dark);}
   .timeline-sec h2{color:#fff;}
@@ -137,7 +167,6 @@
   .tl-note{font-size:.75rem;color:var(--on-dark-muted);margin-top:22px;}
 
   /* authority */
-  .authority{background:var(--paper);}
   .authority p{font-size:.98rem;color:var(--ink);line-height:1.95;margin:0 0 14px;}
   .authority .pillars{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;}
   .pillar{flex:1 1 160px;background:#fff;border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:8px;padding:16px 16px;}
@@ -151,16 +180,11 @@
   .form-card{background:#fff;border-radius:14px;padding:28px 24px;margin-top:22px;box-shadow:0 20px 50px rgba(0,0,0,.3);}
   .form-card .lead-in{color:var(--ink);font-size:.95rem;margin:0 0 20px;line-height:1.8;}
 
-  /* --- Brevo placeholder (公開前に差し替え) --- */
-  .brevo-slot{border:2px dashed var(--gold);border-radius:10px;padding:20px;background:#fffbeb;}
-  .brevo-note{font-size:.78rem;color:#92400e;font-weight:700;margin:0 0 14px;line-height:1.7;}
-  .mock-input{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:8px;font-size:1rem;color:#94a3b8;background:#f8fafc;margin-bottom:12px;}
-  .mock-btn{width:100%;padding:15px;background:var(--gold);color:#1a1206;font-weight:700;font-size:1.02rem;border:none;border-radius:8px;opacity:.75;}
-  /* --- /Brevo placeholder --- */
+  .brevo-slot{border:none;background:none;padding:0;}
 
   .reassure{margin-top:18px;list-style:none;padding:0;}
-  .reassure li{color:var(--on-dark-muted);font-size:.82rem;padding:4px 0 4px 22px;position:relative;}
-  .reassure li:before{content:"✓";position:absolute;left:0;color:var(--gold-lt);font-weight:700;}
+  .reassure li{color:var(--muted);font-size:.82rem;padding:4px 0 4px 22px;position:relative;}
+  .reassure li:before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:700;}
 
   /* footer */
   footer{background:#0b1120;color:var(--on-dark-muted);padding:34px 0 40px;font-size:.78rem;line-height:1.85;}
@@ -200,6 +224,7 @@
 
     <span class="eyebrow">無料ハンドブック</span>
     <h1 class="headline serif">レアアース関連<em>16銘柄</em>を、<br>一次情報で一冊に。</h1>
+    <p class="spec">A4・全14ページ・PDF</p>
     <p class="subhead">
       採掘・精製・磁石・リサイクル・調達——日本のレアアース産業の全体像を、決算・IR・官公庁発表で裏取りして整理しました。<br>
       「どの企業が、何を担うのか」を掴んでおくためのハンドブックです。
@@ -207,7 +232,7 @@
 
     <div class="anchor">
       <div class="date"><span>2027.02</span>Xデー</div>
-      <div class="txt">南鳥島で<b>1日350トン規模の本格採鉱試験</b>が予定されています。この節目の前に、業界地図を頭に入れておく——そのための一冊です。</div>
+      <div class="txt">南鳥島で<b>1日あたり約350トン規模の本格採鉱試験</b>が予定されています。この節目の前に、業界地図を頭に入れておく——そのための一冊です。</div>
     </div>
 
     <a class="cta" href="#form">無料でハンドブックを受け取る<span class="sub">メールアドレスの入力だけ・約30秒</span></a>
@@ -222,10 +247,35 @@
     <ul class="contents">
       <li><span class="mark">◆</span><span><span class="t">サプライチェーン全体マップ</span><span class="d">採掘→精製→磁石→リサイクル→調達。5つのフェーズで産業構造を俯瞰する。</span></span></li>
       <li><span class="mark">◆</span><span><span class="t">主要16銘柄の早見表</span><span class="d">証券コード・担当フェーズ・ポジショニングを一覧で。全体像を一目で掴む。</span></span></li>
-      <li><span class="mark">◆</span><span><span class="t">1社ずつの企業プロファイル</span><span class="d">強み・直近業績・成長ドライバー・リスクを、各社コンパクトに解説。</span></span></li>
+      <li><span class="mark">◆</span><span><span class="t">1社ずつの企業プロファイル</span><span class="d">役割・強み・直近業績・成長ドライバー・リスクを、各社コンパクトに解説。</span></span></li>
       <li><span class="mark">◆</span><span><span class="t">2027年2月へ向けた採掘ロードマップ</span><span class="d">南鳥島プロジェクトの進捗と、本格採鉱試験までの流れ。</span></span></li>
       <li><span class="mark">◆</span><span><span class="t">レアアースの基礎</span><span class="d">全17元素／軽・重希土類の違い／なぜ「精製」が本当のボトルネックなのか。</span></span></li>
     </ul>
+
+    <div class="previews">
+      <div class="preview-item">
+        <img src="/assets/handbook/preview-map.png" alt="ハンドブック内のサプライチェーン全体マップのページ" loading="lazy">
+        <p class="cap"><b>Part 3　サプライチェーン全体マップ</b>　5つのフェーズごとに、どの企業がどこを担っているのかを証券コード付きで整理しています。</p>
+      </div>
+      <div class="preview-item">
+        <img src="/assets/handbook/preview-profile.png" alt="ハンドブック内の企業プロファイル集のページ" loading="lazy">
+        <p class="cap"><b>Part 5　企業プロファイル集</b>　各社の役割・強み・直近の業績・成長ドライバー・リスクを、決算短信とIR資料をもとに1社ずつ記載しています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TARGET ============ -->
+<section class="target">
+  <div class="wrap">
+    <div class="sec-eyebrow">FOR WHOM</div>
+    <h2>こんな方に読んでいただきたい</h2>
+    <ul>
+      <li>レアアース関連銘柄の名前は目にするが、どの企業が何を担っているのか整理できていない</li>
+      <li>ニュースや掲示板の「関連銘柄」に出典がなく、自分で一次情報を確認したい</li>
+      <li>2027年2月に何が起きるのか、その前に把握しておきたい</li>
+    </ul>
+    <p class="note">反対に、値上がりしそうな銘柄や売買のタイミングをお探しの方には、本書は向きません。個別銘柄の推奨は行っておらず、公表資料で確認できた事実だけを扱っています。</p>
   </div>
 </section>
 
@@ -237,7 +287,7 @@
     <ul class="tl">
       <li><span class="dot"></span><div class="when">2026年2月</div><div class="what">探査船「ちきゅう」が、水深約6,000mからの泥の試験採取に成功。</div></li>
       <li><span class="dot"></span><div class="when">2026年7月</div><div class="what">採取した泥（約50トン）の成分分析結果を公表。</div></li>
-      <li class="now"><span class="dot"></span><div class="when">2027年2月<span class="badge">Xデー</span></div><div class="what">1日あたり350トン規模の本格採鉱試験を実施予定。産業化・商業化検討への大きな節目。</div></li>
+      <li class="now"><span class="dot"></span><div class="when">2027年2月<span class="badge">Xデー</span></div><div class="what">1日あたり約350トン規模の本格採鉱試験を実施予定。産業化・商業化検討への大きな節目。</div></li>
       <li><span class="dot"></span><div class="when">2028年度以降</div><div class="what">試験結果をもとに、産業化・商業化を検討。</div></li>
     </ul>
     <p class="tl-note">※日程は計画段階のものを含みます。最新の公式発表をご確認ください。</p>
@@ -249,9 +299,10 @@
   <div class="wrap">
     <div class="sec-eyebrow">WHY ASIATOPRO</div>
     <h2>煽らない。事実で整理する。</h2>
-    <p>Asiatopro は、日本の先人が技術を生み出した「足跡（あしあと）」をたどり、その知をアジアへ伝えるレアアース専門メディアです。数字は決算短信・IR資料・官公庁発表など一次情報で裏取りし、期待や煽りではなく事実ベースで整理することを方針にしています。</p>
+    <p>Asiatopro は、日本の先人が技術を生み出した「足跡（あしあと）」をたどるレアアース専門メディアです。ひとりで運営しています。数字は決算短信・IR資料・官公庁発表など一次情報で裏取りし、期待や煽りではなく事実ベースで整理することを方針にしています。</p>
     <div class="pillars">
       <div class="pillar"><div class="h">一次情報ベース</div><div class="b">財務数値は各社の決算・IRで確認。出典を明記します。</div></div>
+      <div class="pillar"><div class="h">確認できないことは、そう書く</div><div class="b">裏が取れなかった事項は「確認できなかった」と明記します。</div></div>
       <div class="pillar"><div class="h">中立・非煽り</div><div class="b">特定銘柄を推奨せず、業界構造と企業の立ち位置を解説します。</div></div>
       <div class="pillar"><div class="h">継続更新</div><div class="b">プロジェクトの進捗・規制動向を随時アップデートします。</div></div>
     </div>
@@ -264,9 +315,9 @@
     <div class="sec-eyebrow">DOWNLOAD</div>
     <h2>無料でハンドブックを受け取る</h2>
     <div class="form-card">
-      <p class="lead-in">下のフォームにメールアドレスを入力すると、ハンドブック（PDF）のダウンロードリンクをお送りします。あわせて、レアアースの最新動向をメールでお届けします。</p>
+      <p class="lead-in">下のフォームにメールアドレスを入力すると、ハンドブック（PDF・全14ページ）のダウンロードリンクをお送りします。あわせて、レアアースの最新動向をメールでお届けします。</p>
 
-      <div class="brevo-slot" style="border:none;background:none;padding:0;">
+      <div class="brevo-slot">
         <iframe width="100%" height="550" src="https://e16bf6b0.sibforms.com/v2/serve/MUIFAPNYUM7uSDQy5lKxMbIMwWaP3tUyKQCQsOETWGAz44RF2ApUHSWCEeOVGbI9yNTdio-4jedh3zefwHlNs9EBhkMR4KtFYZQL_LpEwbplt3feptxeHcij0d0qCDYthaPkdRfpYLMILpxqUqSZe3SRoYh_-X9dAzhizk9PugEi513ZTYyzYBO1Qiwi_Otu0dx8ruopsGl1XMgsWA==" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
       </div>
 
