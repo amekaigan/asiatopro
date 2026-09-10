@@ -167,35 +167,24 @@ body {
 
 /* ===== テーブル（横スクロール対応） ===== */
 .re-article .re-table-wrap {
-  position: relative;
   overflow-x: auto;
   margin: 20px 0 28px;
   -webkit-overflow-scrolling: touch;
 }
 
-/* スクロール可能であることを示すヒント（スマホのみ） */
+/* スクロール可能であることを示すヒント */
+.re-article .re-table-hint {
+  display: none;
+}
 @media (max-width: 767px) {
-  .re-article .re-table-wrap::after {
-    content: "";
-    position: sticky;
-    top: 0;
-    right: 0;
-    float: right;
-    width: 28px;
-    height: 100%;
-    margin-left: -28px;
-    pointer-events: none;
-    background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,.92));
-  }
   .re-article .re-table-hint {
     display: block;
-    font-size: .75rem;
+    font-size: 0.75rem;
     color: #64748b;
     text-align: right;
-    margin: 0 0 6px;
+    margin: 20px 0 -14px;
   }
 }
-.re-article .re-table-hint { display: none; }
 .re-article .re-table,
 .re-article table {
   width: 100%;
