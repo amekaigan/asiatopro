@@ -179,22 +179,10 @@ body {
 @media (max-width: 767px) {
   .re-article .re-table-hint {
     display: block;
-    position: relative;
     font-size: 0.75rem;
     color: #64748b;
     text-align: right;
-    margin: 20px 0 -14px;
-  }
-  .re-article .re-table-hint::after {
-    content: "";
-    position: absolute;
-    top: 20px;
-    right: 0;
-    width: 32px;
-    height: 220px;
-    pointer-events: none;
-    background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,.96));
-    z-index: 2;
+    margin: 20px 0 -18px;
   }
 }
 .re-article .re-table,
