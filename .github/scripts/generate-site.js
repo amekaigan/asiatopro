@@ -682,6 +682,14 @@ ${AD_SLOT.html}
 // 記事HTMLに目次と広告枠を挿入して返す
 function applyInArticleBlocks(html, file) {
   let out = stripAutoBlock(stripAutoBlock(html, 'TOC'), 'AD');
+
+  // テーブルの横スクロール案内を入れ直す（毎回消してから挿入するので冪等）
+  out = out.replace(/[ \t]*<p class="re-table-hint">[\s\S]*?<\/p>\s*\n?/g, '');
+  out = out.replace(
+    /(<div class="re-table-wrap">)/g,
+    '<p class="re-table-hint">← 横にスクロールできます →</p>\n$1'
+  );
+
   let h2s = findH2s(out);
   if (h2s.length === 0) return out;
   // /brokers/ は証券口座開設が目的のページのため、PR枠を入れない
