@@ -303,10 +303,64 @@ function headerHtml() {
 const HEAD_START = '<!-- AUTO:HEAD:START -->';
 const HEAD_END = '<!-- AUTO:HEAD:END -->';
 
-function headTagsHtml() {
+function escAttr(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// HTMLからOGP用の情報を読み取る
+function ogInfoFrom(content) {
+  const c = (content.match(/<!--([\s\S]*?)-->/) || [])[1] || '';
+  const pick = (k) => {
+    const m = c.match(new RegExp('^\\s*' + k + ':\\s*(.+)$', 'm'));
+    return m ? m[1].trim() : '';
+  };
+  let title = pick('title');
+  let desc = pick('meta');
+  const permalink = pick('permalink');
+
+  if (!title) {
+    const t = content.match(/<title>([\s\S]*?)<\/title>/);
+    title = t ? t[1].replace(/｜Asiatopro$/, '').trim() : 'Asiatopro';
+  }
+  if (!desc) {
+    const d = content.match(/<meta\s+name="description"\s+content="([^"]*)"/);
+    desc = d ? d[1] : '';
+  }
+
+  const slug = (permalink.match(/\/rare-earth\/([^/]+)\//) || [])[1] || '';
+  const image = slug
+    ? `${SITE_URL}/assets/thumb/${slug}.png`
+    : `${SITE_URL}/assets/logo/asiatopro-color.png`;
+  const url = permalink ? `${SITE_URL}${permalink}` : SITE_URL + '/';
+
+  return { title, desc, image, url };
+}
+
+function ogTagsHtml(content) {
+  // すでに手書きのOGPがあるページ（LPなど）には足さない
+  if (/property="og:image"/.test(content)) return '';
+  const o = ogInfoFrom(content);
+  return `
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Asiatopro">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="${escAttr(o.title)}">
+<meta property="og:description" content="${escAttr(o.desc)}">
+<meta property="og:url" content="${escAttr(o.url)}">
+<meta property="og:image" content="${escAttr(o.image)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${escAttr(o.title)}">
+<meta name="twitter:description" content="${escAttr(o.desc)}">
+<meta name="twitter:image" content="${escAttr(o.image)}">`;
+}
+
+function headTagsHtml(content) {
   const css = `<link rel="stylesheet" href="/assets/css/article.css">`;
-  if (!GA4_ID) return css;
-  return `${css}
+  const og = ogTagsHtml(content || '');
+  if (!GA4_ID) return css + og;
+  return `${css}${og}
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -318,7 +372,7 @@ function headTagsHtml() {
 
 // </head> の直前にブロックを差し込む。すでにあれば中身を入れ替える。
 function applyHeadTags(content) {
-  const inner = headTagsHtml();
+  const inner = headTagsHtml(content);
   const block = `${HEAD_START}\n${inner}\n${HEAD_END}`;
   const regex = new RegExp(`${HEAD_START}[\\s\\S]*?${HEAD_END}`);
   if (regex.test(content)) return content.replace(regex, block);
